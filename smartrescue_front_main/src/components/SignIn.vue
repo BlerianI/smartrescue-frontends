@@ -1,10 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="handleSubmit" class="q-gutter-md">
       <q-input
         outlined
         v-model="email"
-        :dense="dense"
         class="login-buttons"
         placeholder="max@beispiel.de"
         lazy-rules
@@ -23,7 +22,6 @@
       <q-input
         outlined
         v-model="password"
-        :dense="dense"
         class="login-buttons"
         :type="isPwd ? 'password' : 'text'"
         :rules="[
@@ -44,7 +42,12 @@
         </template>
       </q-input>
 
-      <q-btn label="Anmelden" color="negative"></q-btn>
+      <q-btn
+        type="submit"
+        label="Anmelden"
+        color="negative"
+        class="full-width"
+      />
 
       <div class="row items-center q-gutter-sm">
         <q-separator class="col-grow" />
@@ -52,17 +55,31 @@
         <q-separator class="col-grow" />
       </div>
 
-      <q-btn label="Mit Google anmelden"></q-btn>
+      <q-btn
+        @click="authStore.googleLogin()"
+        label="Mit Google anmelden"
+        class="full-width"
+      />
     </q-form>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from 'src/stores/authStore'
+import { useRouter } from 'vue-router'
 
-let email = ref('')
-let password = ref('')
-let isPwd = ref(true)
+const authStore = useAuthStore()
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const isPwd = ref(true)
+
+const handleSubmit = async () => {
+  await authStore.signIn(email.value, password.value)
+  router.push('/profile')
+}
 </script>
 
 <style lang="scss" scoped>

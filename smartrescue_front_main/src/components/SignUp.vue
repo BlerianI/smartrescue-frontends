@@ -1,10 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="handleSubmit" class="q-gutter-md">
       <q-input
         outlined
         v-model="firstname"
-        :dense="dense"
         class="login-buttons"
         placeholder="Max"
         lazy-rules
@@ -18,7 +17,6 @@
       <q-input
         outlined
         v-model="lastname"
-        :dense="dense"
         class="login-buttons"
         placeholder="Mustermann"
         lazy-rules
@@ -32,7 +30,6 @@
       <q-input
         outlined
         v-model="email"
-        :dense="dense"
         class="login-buttons"
         placeholder="max@beispiel.de"
         lazy-rules
@@ -49,7 +46,6 @@
       <q-input
         outlined
         v-model="password"
-        :dense="dense"
         class="login-buttons"
         :type="isPwd ? 'password' : 'text'"
         lazy-rules
@@ -74,12 +70,11 @@
       <q-input
         outlined
         v-model="passwordProof"
-        :dense="dense"
         class="login-buttons"
         :type="isPwd2 ? 'password' : 'text'"
         lazy-rules
         :rules="[
-          (val) => (val === passwordProof) || 'Falsches Password',
+          (val) => (val === password) || 'Falsches Password',
         ]"
       >
         <template v-slot:prepend>
@@ -95,7 +90,12 @@
         </template>
       </q-input>
 
-      <q-btn label="Kostenlos regestrieren" color="negative"></q-btn>
+      <q-btn
+        type="submit"
+        label="Kostenlos registrieren"
+        color="negative"
+        class="full-width"
+      />
 
       <div class="row items-center q-gutter-sm">
         <q-separator class="col-grow" />
@@ -103,21 +103,40 @@
         <q-separator class="col-grow" />
       </div>
 
-      <q-btn label="Mit Google anmelden"></q-btn>
+      <q-btn
+        @click="authStore.googleLogin()"
+        label="Mit Google anmelden"
+        class="full-width"
+      />
     </q-form>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from 'src/stores/authStore'
+import { useRouter } from 'vue-router'
 
-let firstname = ref('')
-let lastname = ref('')
-let email = ref('')
-let password = ref('')
-let passwordProof = ref('')
-let isPwd = ref(true)
-let isPwd2 = ref(true)
+const authStore = useAuthStore()
+const router = useRouter()
+
+const firstname = ref('')
+const lastname = ref('')
+const email = ref('')
+const password = ref('')
+const passwordProof = ref('')
+const isPwd = ref(true)
+const isPwd2 = ref(true)
+
+const handleSubmit = async () => {
+  await authStore.signUp(
+    firstname.value,
+    lastname.value,
+    email.value,
+    password.value
+  )
+  router.push('/profile')
+}
 </script>
 
 <style lang="scss" scoped>
