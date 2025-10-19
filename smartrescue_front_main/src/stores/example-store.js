@@ -1,21 +1,8 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
-export const useCounterStore = defineStore('counter', {
-  state: () => ({
-    counter: 0,
-  }),
+export const useMyStore = defineStore('myStore', () => {
+  const message = ref('Viel Erfolg!')
 
-  getters: {
-    doubleCount: (state) => state.counter * 2,
-  },
-
-  actions: {
-    increment() {
-      this.counter++
-    },
-  },
+  return { message }
 })
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useCounterStore, import.meta.hot))
-}

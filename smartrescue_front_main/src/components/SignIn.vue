@@ -2,62 +2,71 @@
   <div class="q-pa-md" style="max-width: 400px">
     <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
       <q-input
-        v-model="text"
+        outlined
+        v-model="email"
         :dense="dense"
-        class="login-buttons q-mb-md shadow-2 custom-input"
-        :underline="false"
-        standout
+        class="login-buttons"
+        placeholder="max@beispiel.de"
+        lazy-rules
+        :rules="[
+          (val) => !!val || 'Bitte E-Mail eingeben',
+          (val) =>
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(val) ||
+            'Ungültige E-Mail-Adresse',
+        ]"
       >
         <template v-slot:prepend>
-          <q-icon name="mail" color="red" />
+          <q-icon name="mail" />
         </template>
       </q-input>
+
+      <q-input
+        outlined
+        v-model="password"
+        :dense="dense"
+        class="login-buttons"
+        :type="isPwd ? 'password' : 'text'"
+        :rules="[
+          (val) => val.length > 0 || 'Bitte Password eingeben',
+          (val) => val.length >= 8 || 'Password muss mindestens 8 Zeichen beinhalten',
+        ]"
+      >
+        <template v-slot:prepend>
+          <q-icon name="lock" />
+        </template>
+
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+
+      <q-btn label="Anmelden" color="negative"></q-btn>
+
+      <div class="row items-center q-gutter-sm">
+        <q-separator class="col-grow" />
+        <div class="text-grey text-caption">ODER</div>
+        <q-separator class="col-grow" />
+      </div>
+
+      <q-btn label="Mit Google anmelden"></q-btn>
     </q-form>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+let email = ref('')
+let password = ref('')
+let isPwd = ref(true)
+</script>
 
 <style lang="scss" scoped>
 .login-buttons {
   width: 350px;
-}
-
-.custom-input {
-  :deep(.q-field__control) {
-    background: white !important;
-    border: 2px solid #ff0000 !important;
-    border-radius: 15px !important;
-    transition: all 0.3s ease;
-
-    &::before,
-    &::after {
-      display: none !important;
-    }
-  }
-
-  :deep(.q-field__control-container) {
-    border-radius: 15px !important;
-    background: transparent !important;
-  }
-
-  :deep(.q-field--focused .q-field__control) {
-    background: white !important;
-    border-color: #ff3333 !important;
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
-  }
-
-  :deep(.q-field__native) {
-    color: black;
-  }
-
-  :deep(.q-field__marginal) {
-    color: #ff0000;
-  }
-
-  // Remove any standout backgrounds
-  :deep(.q-field--standout .q-field__control) {
-    background: transparent !important;
-  }
 }
 </style>
