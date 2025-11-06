@@ -2,9 +2,9 @@
   <q-layout view="lHh Lpr lFf">
     <q-page-container>
       <!-- Ist für den Split zuständig -->
-      <q-page class="row window-height no-scroll q-pa-none">
+      <q-page class="row">
         <!-- Links -->
-        <div class="col-12 col-md-6 bg-white column items-center justify-center q-gutter-md">
+        <div class="col-12 col-md-6 col-sm-12 bg-white column items-center justify-center">
           <q-btn-toggle
             style="width: 200px;"
             v-model="model"
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Rechst -->
-        <div class="col-12 col-md-6 flex flex-center right-container"></div>
+        <div class="col-12 col-md-6 col-sm-0 flex flex-center right-container gt-xs"></div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -56,5 +56,9 @@ let model = ref(true);
     #fc4644,
     #ff5050
   );
+}
+
+:deep(.row) {
+  flex-wrap: nowrap;
 }
 </style>

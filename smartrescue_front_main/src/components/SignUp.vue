@@ -4,7 +4,7 @@
       <q-input
         outlined
         v-model="firstname"
-        class="login-buttons"
+        class="login-input"
         placeholder="Max"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Bitte Vornamen eingeben']"
@@ -17,7 +17,7 @@
       <q-input
         outlined
         v-model="lastname"
-        class="login-buttons"
+        class="login-input"
         placeholder="Mustermann"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Bitte Nachnamen eingeben']"
@@ -30,7 +30,7 @@
       <q-input
         outlined
         v-model="email"
-        class="login-buttons"
+        class="login-input"
         placeholder="max@beispiel.de"
         lazy-rules
         :rules="[
@@ -46,7 +46,7 @@
       <q-input
         outlined
         v-model="password"
-        class="login-buttons"
+        class="login-input"
         :type="isPwd ? 'password' : 'text'"
         lazy-rules
         :rules="[
@@ -70,7 +70,7 @@
       <q-input
         outlined
         v-model="passwordProof"
-        class="login-buttons"
+        class="login-input"
         :type="isPwd2 ? 'password' : 'text'"
         lazy-rules
         :rules="[
@@ -93,11 +93,11 @@
       <q-btn
         type="submit"
         label="Kostenlos registrieren"
-        color="negative"
-        class="full-width"
+        icon-right="eva-arrow-forward-outline"
+        class="jwtLogin text-white"
       />
 
-      <div class="row items-center q-gutter-sm">
+      <div class="row items-center q-gutter-sm" style="width: 350px">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -106,7 +106,8 @@
       <q-btn
         @click="authStore.googleLogin()"
         label="Mit Google anmelden"
-        class="full-width"
+        class="googleLogin"
+        icon="eva-google"
       />
     </q-form>
   </div>
@@ -140,7 +141,28 @@ const handleSubmit = async () => {
 </script>
 
 <style lang="scss" scoped>
-.login-buttons {
+.login-input {
   width: 350px;
+}
+
+:deep(.q-field__control) {
+  border-radius: 15px !important;
+}
+
+:deep(.q-field--outlined .q-field__control::before) {
+  border: 1.6px solid #e5e7eb !important;
+}
+
+.q-btn {
+  height: 56px;
+  width: 350px;
+}
+
+.jwtLogin {
+  background: linear-gradient(90deg, rgba(251, 44, 54, 1) 0%, rgba(231, 0, 11, 1) 50%) !important;
+}
+
+:deep(.googleLogin) {
+  border: 1.6px solid #e5e7eb !important;
 }
 </style>

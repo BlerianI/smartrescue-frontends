@@ -1,5 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
+    <h5>Willkommen zu­rück</h5>
+    <p>Melde dich an und verwalte deine Profile</p>
     <q-form @submit="handleSubmit" class="q-gutter-md">
       <q-input
         outlined
@@ -45,11 +47,11 @@
       <q-btn
         type="submit"
         label="Anmelden"
-        color="negative"
-        class="full-width"
+        icon-right="eva-arrow-forward-outline"
+        class="jwtLogin text-white"
       />
 
-      <div class="row items-center q-gutter-sm">
+      <div class="row items-center q-gutter-sm" style="width: 350px">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -58,7 +60,8 @@
       <q-btn
         @click="authStore.googleLogin()"
         label="Mit Google anmelden"
-        class="full-width"
+        class="googleLogin"
+        icon="eva-google"
       />
     </q-form>
   </div>
@@ -85,5 +88,26 @@ const handleSubmit = async () => {
 <style lang="scss" scoped>
 .login-buttons {
   width: 350px;
+}
+
+:deep(.q-field__control) {
+  border-radius: 15px !important;
+}
+
+:deep(.q-field--outlined .q-field__control::before) {
+  border: 1.6px solid #e5e7eb !important;
+}
+
+.q-btn {
+  width: 350px;
+  height: 56px;
+}
+
+.jwtLogin {
+  background: linear-gradient(90deg, rgba(251, 44, 54, 1) 0%, rgba(231, 0, 11, 1) 50%) !important;
+}
+
+:deep(.googleLogin) {
+  border: 1.6px solid #e5e7eb !important;
 }
 </style>
