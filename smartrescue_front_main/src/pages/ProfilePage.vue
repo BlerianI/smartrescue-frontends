@@ -33,8 +33,8 @@
           </q-avatar>
 
           <div class="column q-ml-sm">
-            <div class="text-weight-medium text-dark">Max Mustermann</div>
-            <div class="text-caption text-grey-7">max@beispiel.de</div>
+            <div class="text-weight-medium text-dark">{{ store.user.first_name + ' ' + store.user.last_name}}</div>
+            <div class="text-caption text-grey-7">{{ store.user.email }}</div>
           </div>
         </div>
       </q-drawer>
