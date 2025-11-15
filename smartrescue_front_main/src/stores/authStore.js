@@ -1,45 +1,55 @@
+/* eslint-disable */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
+
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
-  const token = ref(null)
 
-  // Sign Up
   const signUp = async (firstName, lastName, email, password) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/signup`, {
-      firstName,
-      lastName,
-      email,
-      password,
-    })
-
-    token.value = response.data.data.token
+    const response = await axios.post(
+      `${API_URL}/auth/signup`,
+      { firstName, lastName, email, password },
+      { withCredentials: true },
+    )
     user.value = response.data.data.user
   }
 
-  // Sign In
   const signIn = async (email, password) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/signin`, {
-      email,
-      password,
-    })
-
-    token.value = response.data.data.token
+    const response = await axios.post(
+      `${API_URL}/auth/signin`,
+      { email, password },
+      { withCredentials: true },
+    )
     user.value = response.data.data.user
   }
 
-  // Google OAuth Login
   const googleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/google`
+    window.location.href = `${API_URL}/auth/google`
+  }
+
+  const logout = async () => {
+    await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true })
+    user.value = null
+  }
+
+  const getCurrentUser = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/auth/me`, { withCredentials: true })
+      user.value = response.data.data.user
+    } catch (err) {
+      user.value = null
+    }
   }
 
   return {
     user,
-    token,
     signUp,
     signIn,
     googleLogin,
+    logout,
+    getCurrentUser,
   }
 })
