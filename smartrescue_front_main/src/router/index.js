@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { defineRouter } from '#q-app/wrappers'
 import {
   createRouter,
@@ -6,6 +7,7 @@ import {
   createWebHashHistory,
 } from 'vue-router'
 import routes from './routes'
+import { useAuthStore } from 'src/stores/authStore'
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +33,26 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  })
+
+  Router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore()
+
+    if (!authStore.user && to.path !== '/auth') {
+      try {
+        await authStore.getCurrentUser()
+      } catch (error) {
+        console.log('Nicht eingeloggt')
+      }
+    }
+
+    if (to.path === '/profile' && !authStore.user) {
+      next('/auth')
+    } else if (to.path === '/auth' && authStore.user) {
+      next('/profile')
+    } else {
+      next()
+    }
   })
 
   return Router
