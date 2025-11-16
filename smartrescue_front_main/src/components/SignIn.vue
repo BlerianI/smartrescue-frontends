@@ -1,57 +1,66 @@
 <template>
-  <div class="q-pa-md" style="max-width: 400px">
-    <h5>Willkommen zu­rück</h5>
-    <p>Melde dich an und verwalte deine Profile</p>
+  <div class="q-pt-md" style="max-width: 450px">
+    <div>
+      <h4 class="header">Willkommen zurück</h4>
+      <p class="subheading text-grey-7">Melde dich an und verwalte deine Profile</p>
+    </div>
     <q-form @submit="handleSubmit" class="q-gutter-md">
-      <q-input
-        outlined
-        v-model="email"
-        class="login-buttons"
-        placeholder="max@beispiel.de"
-        lazy-rules
-        :rules="[
-          (val) => !!val || 'Bitte E-Mail eingeben',
-          (val) =>
-            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(val) ||
-            'Ungültige E-Mail-Adresse',
-        ]"
-      >
-        <template v-slot:prepend>
-          <q-icon name="mail" />
-        </template>
-      </q-input>
+      <div>
+        <div class="text-body2 text-grey-7 q-mb-xs">E-Mail Adresse</div>
+        <q-input
+          outlined
+          v-model="email"
+          class="login-buttons"
+          placeholder="max@beispiel.de"
+          lazy-rules
+          :rules="[
+            (val) => !!val || 'Bitte E-Mail eingeben',
+            (val) =>
+              /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(val) ||
+              'Ungültige E-Mail-Adresse',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="mail" />
+          </template>
+        </q-input>
+      </div>
 
-      <q-input
-        outlined
-        v-model="password"
-        class="login-buttons"
-        :type="isPwd ? 'password' : 'text'"
-        :rules="[
-          (val) => val.length > 0 || 'Bitte Password eingeben',
-          (val) => val.length >= 8 || 'Password muss mindestens 8 Zeichen beinhalten',
-        ]"
-      >
-        <template v-slot:prepend>
-          <q-icon name="lock" />
-        </template>
+      <div>
+        <div class="text-body2 text-grey-7 q-mb-xs" style="margin-top: -6px;">Passwort</div>
 
-        <template v-slot:append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
-        </template>
-      </q-input>
+        <q-input
+          outlined
+          v-model="password"
+          class="login-buttons"
+          :type="isPwd ? 'password' : 'text'"
+          :rules="[
+            (val) => val.length > 0 || 'Bitte Password eingeben',
+            (val) => val.length >= 8 || 'Password muss mindestens 8 Zeichen beinhalten',
+          ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="lock" />
+          </template>
+
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
+      </div>
 
       <q-btn
         type="submit"
         label="Anmelden"
         icon-right="eva-arrow-forward-outline"
-        class="jwtLogin text-white"
+        class="jwtLogin text-white shadow-2"
       />
 
-      <div class="row items-center q-gutter-sm" style="width: 350px">
+      <div class="row items-center q-gutter-sm" style="width: 450px">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -64,6 +73,7 @@
         icon="eva-google"
       />
     </q-form>
+
   </div>
 </template>
 
@@ -87,7 +97,7 @@ const handleSubmit = async () => {
 
 <style lang="scss" scoped>
 .login-buttons {
-  width: 350px;
+  width: 450px;
 }
 
 :deep(.q-field__control) {
@@ -99,7 +109,7 @@ const handleSubmit = async () => {
 }
 
 .q-btn {
-  width: 350px;
+  width: 450px;
   height: 56px;
 }
 
@@ -109,5 +119,14 @@ const handleSubmit = async () => {
 
 :deep(.googleLogin) {
   border: 1.6px solid #e5e7eb !important;
+}
+
+/*margin: top, right, bottom, left*/
+.header {
+  margin: 15px 0px 5px 0px;
+}
+
+.subheading {
+  margin-bottom: 50px;
 }
 </style>
