@@ -1,16 +1,13 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="lHh Lpr lff" style="height: 100vh">
-      <!-- HEADER MIT TOGGLE BUTTON -->
       <q-header elevated class="bg-white text-dark">
         <q-toolbar>
           <q-btn flat dense round icon="menu" @click="drawer = !drawer" />
         </q-toolbar>
       </q-header>
 
-      <!-- SIDEBAR -->
       <q-drawer v-model="drawer" show-if-above side="left" :width="250" class="sidebar-drawer">
-        <!-- LOGO OBEN -->
         <div class="q-pa-md flex flex-center bg-white full-width rounded-borders">
           <img
             src="/Logo1000x350.png"
@@ -20,7 +17,6 @@
         </div>
         <q-separator class="separator-line" />
 
-        <!-- NAVIGATION ITEMS -->
         <q-list class="q-px-md">
           <q-item v-for="i in 5" :key="i" clickable class="nav-item q-mb-xs">
             <q-item-section avatar>
@@ -34,7 +30,6 @@
           </q-item>
         </q-list>
 
-        <!-- PROFIL - ABSOLUTE BOTTOM -->
         <div class="absolute-bottom full-width">
           <q-separator class="separator-line" />
           <div class="profile-section q-pa-md">
@@ -58,7 +53,6 @@
       <q-page-container>
         <q-page padding>
           <div class="q-pa-lg" style="background: #f5f5f5; min-height: 100vh">
-            <!-- ÜBERSCHRIFT MIT BUTTON -->
             <div class="q-mb-lg row items-center justify-between">
               <div>
                 <h4 class="text-h4 q-ma-none text-weight-medium text-grey-9">
@@ -69,7 +63,6 @@
                 </p>
               </div>
 
-              <!-- NEUES PROFIL BUTTON -->
               <q-btn
                 outline
                 color="red"
@@ -78,9 +71,7 @@
                 @click="onNeuesProfil"
               />
             </div>
-            <!-- LEERER WEIßER CONTAINER -->
             <q-card flat class="content-container">
-              <!-- TABELLEN HEADER -->
               <div class="table-header row items-center q-px-lg q-py-md">
                 <div class="col-5 text-weight-medium text-grey-8">Namen</div>
                 <div class="col-3 text-weight-medium text-grey-8 text-center">Scans</div>
@@ -89,7 +80,6 @@
 
               <q-separator />
 
-              <!-- PROFILE ITEMS -->
               <ProfileItem v-for="profile in profiles" :key="profile.id" :profile="profile" />
             </q-card>
           </div>
