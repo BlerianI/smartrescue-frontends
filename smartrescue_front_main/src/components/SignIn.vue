@@ -6,11 +6,11 @@
     </div>
     <q-form @submit="handleSubmit" class="q-gutter-md">
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs">E-Mail Adresse</div>
+        <div class="text-body2 text-grey-7 q-mb-xs input-header">E-Mail Adresse</div>
         <q-input
           outlined
           v-model="email"
-          class="login-buttons"
+          class="login-input"
           placeholder="max@beispiel.de"
           lazy-rules
           :rules="[
@@ -27,12 +27,12 @@
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs" style="margin-top: -6px;">Passwort</div>
+        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">Passwort</div>
 
         <q-input
           outlined
           v-model="password"
-          class="login-buttons"
+          class="login-input"
           :type="isPwd ? 'password' : 'text'"
           :rules="[
             (val) => val.length > 0 || 'Bitte Password eingeben',
@@ -60,7 +60,7 @@
         class="jwtLogin text-white shadow-2"
       />
 
-      <div class="row items-center q-gutter-sm" style="width: 450px">
+      <div class="row items-center q-gutter-sm seperator" style="width: 450px">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -73,7 +73,6 @@
         icon="eva-google"
       />
     </q-form>
-
   </div>
 </template>
 
@@ -96,7 +95,7 @@ const handleSubmit = async () => {
 </script>
 
 <style lang="scss" scoped>
-.login-buttons {
+.login-input {
   width: 450px;
 }
 
@@ -128,5 +127,56 @@ const handleSubmit = async () => {
 
 .subheading {
   margin-bottom: 50px;
+}
+
+@media (max-width: 599px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .login-container {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .login-input {
+    width: 280px;
+  }
+
+  :deep(.q-field__control) {
+    height: 45px;
+  }
+
+  :deep(.q-field__marginal) {
+    height: 45px;
+  }
+
+  .separator-container {
+    width: 280px;
+  }
+
+  .q-btn {
+    width: 280px;
+    height: 45px;
+    font-size: 12px;
+  }
+
+  .header {
+    font-size: 24px;
+  }
+
+  .subheading {
+    font-size: 14.5px;
+    margin-bottom: 30px;
+  }
+
+  .input-header {
+    font-size: 0.8rem;
+  }
+
+  .seperator {
+    max-width: 280px;
+  }
 }
 </style>

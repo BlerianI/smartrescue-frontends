@@ -1,25 +1,36 @@
 <template>
   <div class="q-pa-md" style="max-width: 500px">
     <div>
-      <h4 class="header">Willkommen zurück</h4>
-      <p class="subheading text-grey-7">Melde dich an und verwalte deine Profile</p>
+      <h4 class="header">Erstelle dein Konto</h4>
+      <p class="subheading text-grey-7">Kostenlos registrieren und Leben retten</p>
     </div>
 
-    <div class="flex justify-center items-center q-pa-md q-mb-xl">
-      <q-avatar size="120px" class="cursor-pointer" @click="$refs.fileInput.click()" style="border: 2px solid #e5e7eb;">
-        <q-icon name="upload" size="60px" class="text-grey-7"/>
-      </q-avatar>
+    <div class="flex justify-center q-mb-xl">
+      <div class="avatar-container">
+        <q-avatar
+          :size="$q.screen.xs ? '80px' : '120px'"
+          class="cursor-pointer"
+          @click="$refs.fileInput.click()"
+          style="border: 2px solid #e5e7eb"
+        >
+          <q-icon name="upload" :size="$q.screen.xs ? '40px' : '60px'" class="text-grey-7" />
+        </q-avatar>
+
+        <div class="text-body2 text-grey-7 q-mb-xs input-header q-mt-sm">
+          Profilbild hochladen
+        </div>
+      </div>
       <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" />
     </div>
 
     <q-form @submit.prevent="handleSubmit" ref="myForm" class="q-gutter-md">
-      <div class="row" style="max-width: 450px">
-        <div>
-          <div class="text-body2 text-grey-7 q-mb-xs">Vorname</div>
+      <div class="row name-row" style="max-width: 450px">
+        <div class="col-12 col-md-6">
+          <div class="text-body2 text-grey-7 q-mb-xs input-header">Vorname</div>
           <q-input
             outlined
             v-model="firstname"
-            class="col q-mr-md"
+            class="split"
             placeholder="Max"
             lazy-rules="ondemand"
             :rules="[(val) => (val && val.length > 0) || 'Bitte Vornamen eingeben']"
@@ -30,12 +41,12 @@
           </q-input>
         </div>
 
-        <div>
-          <div class="text-body2 text-grey-7 q-mb-xs">Nachname</div>
+        <div class="col-12 col-md-6">
+          <div class="text-body2 text-grey-7 q-mb-xs input-header">Nachname</div>
           <q-input
             outlined
             v-model="lastname"
-            class="col"
+            class=""
             placeholder="Mustermann"
             lazy-rules="ondemand"
             :rules="[(val) => (val && val.length > 0) || 'Bitte Nachnamen eingeben']"
@@ -48,7 +59,9 @@
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs" style="margin-top: -6px">E-Mail Adresse</div>
+        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
+          E-Mail Adresse
+        </div>
         <q-input
           outlined
           v-model="email"
@@ -69,7 +82,9 @@
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs" style="margin-top: -6px">Passwort</div>
+        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
+          Passwort
+        </div>
         <q-input
           outlined
           v-model="password"
@@ -96,7 +111,7 @@
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs" style="margin-top: -6px">
+        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
           Passwort bestätigen
         </div>
         <q-input
@@ -131,7 +146,7 @@
         class="jwtLogin text-white shadow-2"
       />
 
-      <div class="row items-center q-gutter-sm" style="width: 450px">
+      <div class="row items-center q-gutter-sm seperator" style="width: 450px">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -177,7 +192,12 @@ const handleSubmit = async () => {
 
   await authStore.signUp(firstname.value, lastname.value, email.value, password.value)
   router.push('/profile')
-}
+};
+
+
+const onFileChange = () => {
+
+};
 </script>
 
 <style lang="scss" scoped>
@@ -217,5 +237,83 @@ const handleSubmit = async () => {
 
 .subheading {
   margin-bottom: 15px;
+}
+
+.split {
+  margin-right: 16px;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-width: 599px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .login-container {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .login-input {
+    width: 280px;
+  }
+
+  :deep(.q-field__control) {
+    height: 45px;
+  }
+
+  :deep(.q-field__marginal) {
+    height: 45px;
+  }
+
+  .separator-container {
+    width: 280px;
+  }
+
+  .q-btn {
+    width: 280px;
+    height: 45px;
+    font-size: 12px;
+  }
+
+  .header {
+    font-size: 24px;
+  }
+
+  .subheading {
+    font-size: 14.5px;
+    margin-bottom: 30px;
+  }
+
+  .input-header {
+    font-size: 0.8rem;
+  }
+
+  .seperator {
+    max-width: 280px;
+  }
+
+  .container-signup {
+    max-width: 280px;
+  }
+
+  .name-row {
+    flex-direction: column;
+  }
+
+  .name-row > div {
+    width: 100%;
+  }
+
+  .split {
+    margin-right: 0px;
+  }
 }
 </style>

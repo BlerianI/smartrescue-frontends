@@ -3,10 +3,9 @@
     <q-page-container>
       <q-page class="row">
         <!-- Links -->
-        <div class="col-12 col-md-6 col-sm-12 bg-white column items-center justify-center">
+        <div class="col-12 col-lg-6 col-sm-12 bg-white column items-center justify-center">
           <div
-            class="relative-position row items-center shadow-1"
-            style="width: 450px; height: 60px; border-radius: 15px"
+            class="relative-position row items-center shadow-1 toggle"
           >
             <!-- Slider -->
             <div class="slider" :class="mode === 'signup' ? 'slider-left' : 'slider-right'"></div>
@@ -34,14 +33,16 @@
 
           <SignUp v-if="mode == 'signup'"></SignUp>
 
-          <div class="text-body2 text-grey-7 q-mt-lg text-center">
+          <div class="text-body2 text-grey-7 q-mt-lg text-center info">
             <q-icon name="lock" />
             Deine Daten sind sicher • DSGVO-konform
           </div>
         </div>
 
-        <!-- Rechst -->
-        <div class="col-12 col-md-6 col-sm-0 flex flex-center right-container gt-xs"></div>
+        <!-- Rechst
+          col-sm-0
+        -->
+        <div class="col-12 col-lg-6 col-md-0 flex flex-center right-container gt-xs"></div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -56,6 +57,13 @@ const mode = ref('signup')
 </script>
 
 <style lang="scss" scoped>
+
+.toggle {
+  width: 450px;
+  height: 60px;
+  border-radius: 15px
+}
+
 .right-container {
   background-image: linear-gradient(
     to right top,
@@ -96,5 +104,25 @@ const mode = ref('signup')
 
 .slider-left {
   transform: translateX(0);
+}
+
+
+@media (max-width: 599px) {
+  .toggle {
+    width: 280px;
+  }
+
+  .info {
+     font-size: 0.720rem;
+  }
+}
+
+.hide-at-1400 {
+  display: block;
+
+  @media (-width: 1400px) {
+    display: none;
+    width: 0;
+  }
 }
 </style>
