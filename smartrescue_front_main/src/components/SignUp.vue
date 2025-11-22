@@ -8,12 +8,14 @@
     <div class="flex justify-center q-mb-xl">
       <div class="avatar-container">
         <q-avatar
+          src="@/assets/Profil.png"
           :size="$q.screen.xs ? '80px' : '120px'"
           class="cursor-pointer"
           @click="$refs.fileInput.click()"
           style="border: 2px solid #e5e7eb"
         >
-          <q-icon name="upload" :size="$q.screen.xs ? '40px' : '60px'" class="text-grey-7" />
+          <img v-if="avatar" :src="avatar">
+          <q-icon v-if="!avatar" name="upload" :size="$q.screen.xs ? '40px' : '60px'" class="text-grey-7"/>
         </q-avatar>
 
         <div class="text-body2 text-grey-7 q-mb-xs input-header q-mt-sm">
@@ -179,11 +181,11 @@ const isPwd = ref(true)
 const isPwd2 = ref(true)
 
 const myForm = ref(null)
-const file = ref(null)
+
+const avatar = ref(null)
 
 const handleSubmit = async () => {
   const success = myForm.value.validate()
-  console.log(file)
   console.log(1)
 
   if (!success) {
@@ -195,8 +197,13 @@ const handleSubmit = async () => {
 };
 
 
-const onFileChange = () => {
+const onFileChange = (event) => {
+  console.log(event);
 
+  const selectedFile = event.target.files[0];
+  if(!selectedFile) return;
+
+  avatar.value = URL.createObjectURL(selectedFile)
 };
 </script>
 
@@ -249,6 +256,7 @@ const onFileChange = () => {
   align-items: center;
   text-align: center;
 }
+
 
 @media (max-width: 599px) {
   body {
