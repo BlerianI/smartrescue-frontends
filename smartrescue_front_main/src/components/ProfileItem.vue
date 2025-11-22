@@ -1,8 +1,6 @@
 <template>
   <div>
-    <!-- PROFILE ROW -->
     <div class="profile-row row items-center q-px-lg q-py-md">
-      <!-- AVATAR + NAME -->
       <div class="col-5 row items-center">
         <q-avatar size="56px" color="blue-grey-4">
           <q-icon name="person" color="white" size="32px" />
@@ -12,12 +10,10 @@
         </span>
       </div>
 
-      <!-- SCANS BADGE -->
       <div class="col-3 text-center">
         <q-badge outline :label="`${profile.scans} Scans`" color="grey-7" class="scans-badge" />
       </div>
 
-      <!-- AKTIONEN -->
       <div class="col-4 row items-center justify-center q-gutter-sm">
         <q-btn flat round dense icon="edit" color="blue-grey-5" size="md" @click="onEdit">
           <q-tooltip>Bearbeiten</q-tooltip>
@@ -37,7 +33,6 @@
       </div>
     </div>
 
-    <!-- EXPANDED SECTION - QR CODE HISTORIE -->
     <q-slide-transition>
       <div v-show="expanded" class="expanded-section">
         <div class="q-px-lg q-py-md">
