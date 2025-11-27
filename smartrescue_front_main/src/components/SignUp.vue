@@ -186,15 +186,27 @@ const avatar = ref(null)
 
 const handleSubmit = async () => {
   const success = myForm.value.validate()
-  console.log(1)
 
   if (!success) {
     return
   }
 
-  await authStore.signUp(firstname.value, lastname.value, email.value, password.value)
-  router.push('/profile')
-};
+  try {
+    // 1. Zuerst registrieren (setzt authStore.user)
+    await authStore.signUp(firstname.value, lastname.value, email.value, password.value)
+
+    // 2. Warten bis Store definitiv gesetzt ist
+    if (!authStore.user) {
+      throw new Error('Registrierung fehlgeschlagen')
+    }
+
+    // 3. Erst dann navigieren
+    await router.push('/profile')
+  } catch (error) {
+    console.error('Signup Error:', error)
+    // Optional: Fehler dem User anzeigen
+  }
+}
 
 
 const onFileChange = (event) => {

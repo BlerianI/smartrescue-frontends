@@ -89,8 +89,21 @@ const password = ref('')
 const isPwd = ref(true)
 
 const handleSubmit = async () => {
-  await authStore.signIn(email.value, password.value)
-  router.push('/profile')
+  try {
+    // 1. Zuerst einloggen (setzt authStore.user)
+    await authStore.signIn(email.value, password.value)
+
+    // 2. Warten bis Store definitiv gesetzt ist
+    if (!authStore.user) {
+      throw new Error('Login fehlgeschlagen')
+    }
+
+    // 3. Erst dann navigieren
+    await router.push('/profile')
+  } catch (error) {
+    console.error('Login Error:', error)
+    // Optional: Fehler dem User anzeigen
+  }
 }
 </script>
 
