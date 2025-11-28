@@ -84,6 +84,7 @@
             </q-card>
           </div>
         </q-page>
+        <NewProfile v-model="showNewProfile" />
       </q-page-container>
     </q-layout>
   </div>
@@ -93,9 +94,16 @@
 import { useAuthStore } from 'src/stores/authStore'
 import { ref } from 'vue'
 import ProfileItem from 'src/components/ProfileItem.vue'
+import NewProfile from 'src/components/NewProfile.vue'
 
 const drawer = ref(true)
 const store = useAuthStore()
+
+const showNewProfile = ref(false)
+
+const onNeuesProfil = () => {
+  showNewProfile.value = true
+}
 
 const profiles = ref([
   {
