@@ -7,7 +7,13 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="drawer" show-if-above side="left" :width="250" class="sidebar-drawer">
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        side="left"
+        :width="250"
+        class="sidebar-drawer shadow-1"
+      >
         <div class="q-pa-md flex flex-center bg-white full-width rounded-borders">
           <img
             src="/Logo1000x350.png"
