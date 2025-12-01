@@ -6,16 +6,16 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <!-- Compact Quasar Stepper -->
         <q-stepper
           v-model="step"
           ref="stepper"
           color="primary"
+          :vertical="$q.screen.lt.sm"
           animated
           flat
           header-nav
           contracted
-          class="compact-stepper q-mb-lg"
+          class="compact-stepper"
         >
           <q-step
             :name="1"
@@ -60,11 +60,38 @@
             done-color="positive"
           />
         </q-stepper>
-
-        <!-- Profilbild hochladen (optional) -->
-
         <!-- Step 1: Persönliche Daten -->
         <div v-if="step === 1" class="q-pt-none">
+          <div
+            class="justify-center text-center text-h6 q-mb-md"
+            style="color: #5a6c7d; font-weight: 500"
+          >
+            Persönliche Daten
+          </div>
+          <div class="flex justify-center q-mb-xl">
+            <div class="avatar-container">
+              <q-avatar
+                src="@/assets/Profil.png"
+                :size="$q.screen.xs ? '80px' : '120px'"
+                class="cursor-pointer"
+                @click="$refs.fileInput.click()"
+                style="border: 2px solid #e5e7eb"
+              >
+                <img v-if="avatar" :src="avatar" />
+                <q-icon
+                  v-if="!avatar"
+                  name="upload"
+                  :size="$q.screen.xs ? '40px' : '60px'"
+                  class="text-grey-7"
+                />
+              </q-avatar>
+
+              <div class="text-body2 text-grey-7 q-mb-xs input-header q-mt-sm">
+                Profilbild hochladen
+              </div>
+            </div>
+            <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" />
+          </div>
           <div class="row q-col-gutter-md">
             <div class="col-6">
               <label class="field-label">VORNAME</label>
@@ -247,7 +274,7 @@
               <q-input
                 outlined
                 v-model="formData.gewicht"
-                class="input"
+                class="inputs"
                 placeholder="67.5"
                 lazy-rules
                 :rules="[
@@ -266,7 +293,7 @@
               <q-input
                 outlined
                 v-model="formData.hoehe"
-                class="input"
+                class="inputs"
                 placeholder="180"
                 lazy-rules
                 :rules="[
@@ -344,9 +371,302 @@
           </div>
         </div>
 
-        <!-- Step 2: Körperdaten -->
-        <div v-if="step === 2" class="q-gutter-md">
-          <div class="row q-col-gutter-md"></div>
+        <!-- Step 2: Doktor und Notfallkontakte -->
+        <div v-if="step === 2" class="q-pt-none">
+          <!-- Doktor -->
+          <div
+            class="justify-center text-center text-h6 q-mb-md"
+            style="color: #5a6c7d; font-weight: 500"
+          >
+            Doktor
+          </div>
+          <div class="row q-col-gutter-md">
+            <div class="col-6">
+              <label class="field-label">VORNAME</label>
+              <q-input
+                outlined
+                v-model="formData.vorname"
+                class="inputs"
+                placeholder="Max"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Vorname ist erforderlich',
+                  (val) => val.trim().length >= 2 || 'Mindestens 2 Zeichen erforderlich',
+                  (val) => val.length <= 50 || 'Maximal 50 Zeichen erlaubt',
+                  (val) =>
+                    /^[a-zA-ZäöüÄÖÜß\s-]+$/.test(val) ||
+                    'Nur Buchstaben, Leerzeichen und Bindestriche erlaubt',
+                ]"
+              >
+              </q-input>
+            </div>
+            <div class="col-6">
+              <label class="field-label">NACHNAME</label>
+              <q-input
+                outlined
+                v-model="formData.nachname"
+                class="inputs"
+                placeholder="Mustermann"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Vorname ist erforderlich',
+                  (val) => val.trim().length >= 2 || 'Mindestens 2 Zeichen erforderlich',
+                  (val) => val.length <= 50 || 'Maximal 50 Zeichen erlaubt',
+                  (val) =>
+                    /^[a-zA-ZäöüÄÖÜß\s-]+$/.test(val) ||
+                    'Nur Buchstaben, Leerzeichen und Bindestriche erlaubt',
+                ]"
+              >
+              </q-input>
+            </div>
+          </div>
+          <div class="row q-col-gutter-md">
+            <div class="col-6">
+              <label class="field-label">STRASSE</label>
+              <q-input
+                outlined
+                v-model="formData.strasse"
+                class="inputs"
+                placeholder="Mariahilfer Straße"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Straße ist erforderlich',
+                  (val) => val.trim().length >= 2 || 'Mindestens 2 Zeichen erforderlich',
+                  (val) => val.length <= 100 || 'Maximal 100 Zeichen erlaubt',
+                ]"
+              >
+              </q-input>
+            </div>
+            <div class="col-6">
+              <label class="field-label">HAUSNUMMER</label>
+              <q-input
+                outlined
+                v-model="formData.hausnummer"
+                class="inputs"
+                placeholder="12A"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Hausnummer ist erforderlich',
+                  (val) => val.trim().length >= 1 || 'Hausnummer erforderlich',
+                  (val) => val.length <= 10 || 'Maximal 10 Zeichen erlaubt',
+                ]"
+              >
+              </q-input>
+            </div>
+
+            <div class="col-6">
+              <label class="field-label">POSTLEITZAHL</label>
+              <q-input
+                outlined
+                v-model="formData.postleitzahl"
+                class="inputs"
+                placeholder="1010"
+                lazy-rules
+                maxlength="4"
+                :rules="[
+                  (val) => !!val || 'Postleitzahl ist erforderlich',
+                  (val) => /^\d{4}$/.test(val) || 'Muss genau 4 Ziffern sein',
+                ]"
+              >
+              </q-input>
+            </div>
+            <div class="col-6">
+              <label class="field-label">STADT</label>
+              <q-input
+                outlined
+                v-model="formData.stadt"
+                class="inputs"
+                placeholder="Wien"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Stadt ist erforderlich',
+                  (val) => val.trim().length >= 2 || 'Mindestens 2 Zeichen erforderlich',
+                  (val) => val.length <= 50 || 'Maximal 50 Zeichen erlaubt',
+                  (val) =>
+                    /^[a-zA-ZäöüÄÖÜß\s-]+$/.test(val) ||
+                    'Nur Buchstaben, Leerzeichen und Bindestriche erlaubt',
+                ]"
+              >
+              </q-input>
+            </div>
+          </div>
+          <div class="row q-col-gutter-md q-mt-md">
+            <!-- PHONE NUMBER -->
+            <div class="col-6">
+              <label class="field-label">TELEFONNUMMER</label>
+              <q-input
+                outlined
+                v-model="formData.phone"
+                class="inputs"
+                placeholder="+43 660 1234567"
+                lazy-rules
+                :rules="[
+                  (val) => !!val || 'Telefonnummer ist erforderlich',
+                  (val) => val.replace(/[^0-9]/g, '').length >= 8 || 'Mindestens 8 Ziffern',
+                  (val) => val.replace(/[^0-9]/g, '').length <= 15 || 'Maximal 15 Ziffern',
+                ]"
+              >
+              </q-input>
+            </div>
+
+            <!-- DOCTOR TITLE -->
+            <div class="col-6">
+              <label class="field-label">TITEL</label>
+              <q-select
+                outlined
+                v-model="formData.titel"
+                class="inputs"
+                placeholder="z. B. Dr. med."
+                lazy-rules
+                :rules="[(val) => !!val || 'Titel ist erforderlich']"
+                :options="[
+                  'Dr. med.',
+                  'Dr. med. dent.',
+                  'Dr. med. vet.',
+                  'Mag. med.',
+                  'PhD',
+                  'Prof. Dr.',
+                  'PD Dr.',
+                  'Kein Titel',
+                ]"
+                clearable
+              >
+              </q-select>
+            </div>
+          </div>
+
+          <!-- SPECIALTY FULL WIDTH -->
+          <div class="row q-col-gutter-md q-mt-md">
+            <div class="col-12">
+              <label class="field-label">FACHRICHTUNG</label>
+              <q-select
+                outlined
+                v-model="formData.specialty"
+                class="inputs"
+                placeholder="Fachrichtung auswählen"
+                lazy-rules
+                :rules="[(val) => !!val || 'Fachrichtung ist erforderlich']"
+                :options="[
+                  'Allgemeinmedizin',
+                  'Kardiologie',
+                  'Dermatologie',
+                  'Neurologie',
+                  'Orthopädie',
+                  'Chirurgie',
+                  'Radiologie',
+                  'Pädiatrie',
+                  'Psychiatrie',
+                ]"
+              >
+              </q-select>
+            </div>
+          </div>
+          <!-- Notfallkontakte -->
+          <div
+            class="justify-center text-center text-h6 q-mb-md"
+            style="color: #5a6c7d; font-weight: 500"
+          >
+            Notfallkontakte
+          </div>
+
+          <div class="col-12">
+            <q-btn
+              flat
+              class="full-width q-py-sm"
+              style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+              icon="add"
+              label="Kontakt hinzufügen"
+              @click="addEmergencyContact"
+            />
+          </div>
+
+          <!-- Notfallkontakte Karten -->
+          <div v-for="(contact, index) in emergencyContacts" :key="index" class="q-mt-md">
+            <q-card flat bordered class="contact-card">
+              <q-card-section class="row items-center justify-between">
+                <div class="text-subtitle2" style="color: #5a6c7d; font-weight: 600">
+                  Notfallkontakt {{ index + 1 }}
+                </div>
+                <q-btn
+                  dense
+                  flat
+                  round
+                  icon="delete"
+                  color="negative"
+                  @click="removeEmergencyContact(index)"
+                />
+              </q-card-section>
+
+              <q-separator />
+
+              <q-card-section>
+                <div class="row q-col-gutter-md">
+                  <div class="col-6">
+                    <label class="field-label">VORNAME</label>
+                    <q-input
+                      outlined
+                      v-model="contact.firstname"
+                      class="inputs"
+                      placeholder="Vorname"
+                    />
+                  </div>
+
+                  <div class="col-6">
+                    <label class="field-label">NACHNAME</label>
+                    <q-input
+                      outlined
+                      v-model="contact.lastname"
+                      class="inputs"
+                      placeholder="Nachname"
+                    />
+                  </div>
+
+                  <div class="col-6">
+                    <label class="field-label">TELEFONNUMMER</label>
+                    <q-input
+                      outlined
+                      v-model="contact.phone"
+                      class="inputs"
+                      placeholder="+43 660 1234567"
+                    />
+                  </div>
+
+                  <div class="col-6">
+                    <label class="field-label">BEZIEHUNG</label>
+                    <q-input
+                      outlined
+                      v-model="contact.relationship"
+                      class="inputs"
+                      placeholder="z. B. Mutter"
+                    />
+                  </div>
+
+                  <div class="col-6">
+                    <label class="field-label">PRIORITÄT</label>
+                    <q-select
+                      outlined
+                      v-model="contact.priority"
+                      :options="['Hoch', 'Mittel', 'Niedrig']"
+                      class="inputs"
+                      placeholder="Priorität wählen"
+                    />
+                  </div>
+
+                  <div class="col-12">
+                    <label class="field-label">NOTIZ</label>
+                    <q-input
+                      outlined
+                      type="textarea"
+                      v-model="contact.note"
+                      class="inputs"
+                      placeholder="Zusätzliche Informationen"
+                      autogrow
+                    />
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
 
         <!-- Step 3: Medizinische Daten -->
@@ -430,6 +750,7 @@ const emit = defineEmits(['update:modelValue', 'profile-saved'])
 const isOpen = ref(props.modelValue)
 const step = ref(1)
 const stepper = ref(null)
+const avatar = ref(null)
 
 watch(
   () => props.modelValue,
@@ -492,6 +813,32 @@ const getSliderPosition = () => {
     Divers: 'left: calc(66.666% - 2px)',
   }
   return positions[formData.value.gender] || 'left: 4px'
+}
+
+const onFileChange = (event) => {
+  console.log(event)
+
+  const selectedFile = event.target.files[0]
+  if (!selectedFile) return
+
+  avatar.value = URL.createObjectURL(selectedFile)
+}
+
+const emergencyContacts = ref([])
+
+const addEmergencyContact = () => {
+  emergencyContacts.value.push({
+    firstname: '',
+    lastname: '',
+    phone: '',
+    relationship: '',
+    priority: '',
+    note: '',
+  })
+}
+
+const removeEmergencyContact = (index) => {
+  emergencyContacts.value.splice(index, 1)
 }
 </script>
 
@@ -696,5 +1043,23 @@ const getSliderPosition = () => {
 .birthdate-input :deep(input::placeholder) {
   color: #a0aebb;
   font-weight: 400;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.contact-card {
+  border-radius: 12px;
+  background: #f5f7fa;
+  border: 1px solid #d2dce8;
+  transition: 0.25s ease;
+}
+
+.contact-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 </style>
