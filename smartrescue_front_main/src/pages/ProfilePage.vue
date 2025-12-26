@@ -86,56 +86,44 @@
 
               <q-separator />
 
-              <ProfileItem v-for="profile in profiles" :key="profile.id" :profile="profile" />
+              <ProfileItem
+                v-for="profile in userStore.profiles"
+                :key="profile.profile_id"
+                :profiles="userStore.profiles"
+              />
             </q-card>
           </div>
         </q-page>
-        <NewProfile v-model="showNewProfile" />
+        <NewProfile
+          v-model="showNewProfile"
+          :user-id="store.user.user_id"
+          @profile-saved="onProfileSaved"
+        />
       </q-page-container>
     </q-layout>
   </div>
 </template>
-
 <script setup>
 import { useAuthStore } from 'src/stores/authStore'
-import { ref } from 'vue'
+import { useUserStore } from 'src/stores/userStore'
+import { ref, onMounted } from 'vue'
 import ProfileItem from 'src/components/ProfileItem.vue'
-import NewProfile from 'src/components/NewProfile.vue'
+import NewProfile from './NewProfile.vue'
 
 const drawer = ref(true)
 const store = useAuthStore()
+const userStore = useUserStore()
 
 const showNewProfile = ref(false)
+
+// Lade die Profile wenn die Komponente gemountet ist
+onMounted(async () => {
+  await userStore.getProfilesFromUser(store.user.user_id)
+})
 
 const onNeuesProfil = () => {
   showNewProfile.value = true
 }
-
-const profiles = ref([
-  {
-    id: 1,
-    name: 'Max Mustermann',
-    scans: 0,
-    history: [],
-  },
-  {
-    id: 2,
-    name: 'Max Mustermann',
-    scans: 1,
-    history: [
-      {
-        date: '20.09.2025 16:45',
-        location: 'Oesterreich, Wien, Linzer Strasse 15',
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Max Mustermann',
-    scans: 0,
-    history: [],
-  },
-])
 </script>
 
 <style lang="scss" scoped>

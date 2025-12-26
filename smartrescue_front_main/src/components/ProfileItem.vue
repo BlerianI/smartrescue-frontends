@@ -1,60 +1,88 @@
 <template>
-  <div>
+  <div v-for="profile in props.profiles" :key="profile.profile_id">
     <div class="profile-row row items-center q-px-lg q-py-md">
       <div class="col-5 row items-center">
-        <q-avatar size="56px" color="blue-grey-4">
-          <q-icon name="person" color="white" size="32px" />
+        <q-avatar size="56px">
+          <img :src="profile.avatar_url" v-if="profile.avatar_url" />
+          <q-icon v-else name="person" color="white" size="32px" />
         </q-avatar>
         <span class="q-ml-md text-body1 text-grey-8 text-weight-medium">
-          {{ profile.name }}
+          {{ profile.first_name }} {{ profile.last_name }}
         </span>
       </div>
-
       <div class="col-3 text-center">
-        <q-badge outline :label="`${profile.scans} Scans`" color="grey-7" class="scans-badge" />
+        <q-badge outline label="0 Scans" color="grey-7" class="scans-badge" />
       </div>
-
       <div class="col-4 row items-center justify-center q-gutter-sm">
-        <q-btn flat round dense icon="edit" color="blue-grey-5" size="md" @click="onEdit">
+        <q-btn flat round dense icon="edit" color="blue-grey-5" size="md" @click="onEdit(profile)">
           <q-tooltip>Bearbeiten</q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="delete" color="blue-grey-5" size="md" @click="onDelete">
+        <q-btn
+          flat
+          round
+          dense
+          icon="delete"
+          color="blue-grey-5"
+          size="md"
+          @click="onDelete(profile)"
+        >
           <q-tooltip>Löschen</q-tooltip>
         </q-btn>
         <q-btn
           flat
           round
           dense
-          :icon="expanded ? 'expand_less' : 'expand_more'"
+          :icon="expandedProfiles[profile.profile_id] ? 'expand_less' : 'expand_more'"
           color="grey-9"
           size="md"
-          @click="expanded = !expanded"
+          @click="toggleExpanded(profile.profile_id)"
         />
       </div>
     </div>
-
     <q-slide-transition>
-      <div v-show="expanded" class="expanded-section">
+      <div v-show="expandedProfiles[profile.profile_id]" class="expanded-section">
         <div class="q-px-lg q-py-md">
-          <div class="text-weight-medium text-grey-7 q-mb-md">QR-Code Scan Historie</div>
-
-          <div
-            v-for="(scan, index) in profile.history"
-            :key="index"
-            class="history-item row items-center q-pa-md"
-          >
-            <q-avatar size="48px" color="blue-grey-4">
-              <q-icon name="qr_code_scanner" color="white" size="24px" />
-            </q-avatar>
-            <div class="q-ml-md">
-              <div class="text-weight-medium text-grey-9">{{ scan.date }}</div>
-              <div class="text-caption text-grey-6">{{ scan.location }}</div>
+          <div class="text-weight-medium text-grey-7 q-mb-md">Profil Details</div>
+          <div class="history-item row items-start q-pa-md">
+            <div class="col-12">
+              <div class="row q-mb-sm">
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Geschlecht</div>
+                  <div class="text-weight-medium text-grey-9">{{ profile.gender }}</div>
+                </div>
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Geburtsdatum</div>
+                  <div class="text-weight-medium text-grey-9">{{ profile.birthdate }}</div>
+                </div>
+              </div>
+              <div class="row q-mb-sm">
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Größe</div>
+                  <div class="text-weight-medium text-grey-9">{{ profile.height }} cm</div>
+                </div>
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Gewicht</div>
+                  <div class="text-weight-medium text-grey-9">{{ profile.weight }} kg</div>
+                </div>
+              </div>
+              <div class="row q-mb-sm">
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Blutgruppe</div>
+                  <div class="text-weight-medium text-grey-9">{{ profile.blood_type }}</div>
+                </div>
+                <div class="col-6">
+                  <div class="text-caption text-grey-6">Adresse</div>
+                  <div class="text-weight-medium text-grey-9">
+                    {{ profile.street }} {{ profile.house_number }}, {{ profile.postal_code }}
+                    {{ profile.city }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </q-slide-transition>
-
     <q-separator />
   </div>
 </template>
@@ -63,48 +91,26 @@
 import { ref } from 'vue'
 
 const props = defineProps({
-  profile: {
-    type: Object,
+  profiles: {
+    type: Array,
     required: true,
   },
 })
+console.log('Alle Profile:', props.profiles)
+props.profiles.forEach((p) => {
+  console.log(`Profil: ${p.first_name} ${p.last_name}`)
+})
+const expandedProfiles = ref({})
 
-const expanded = ref(false)
-
-const onEdit = () => {
-  console.log('Bearbeiten:', props.profile.name)
-  // Hier deine Edit-Logik
+const toggleExpanded = (profileId) => {
+  expandedProfiles.value[profileId] = !expandedProfiles.value[profileId]
 }
 
-const onDelete = () => {
-  console.log('Löschen:', props.profile.name)
-  // Hier deine Delete-Logik
+const onEdit = (profile) => {
+  console.log('Bearbeiten:', profile.first_name, profile.last_name)
+}
+
+const onDelete = (profile) => {
+  console.log('Löschen:', profile.first_name, profile.last_name)
 }
 </script>
-
-<style lang="scss" scoped>
-.profile-row {
-  background: #f8f9fa;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #f0f1f3;
-  }
-}
-
-.scans-badge {
-  padding: 6px 20px;
-  border-radius: 20px;
-  font-size: 13px;
-}
-
-.expanded-section {
-  background: #f0f1f3;
-}
-
-.history-item {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-}
-</style>
