@@ -90,6 +90,7 @@
                 v-for="profile in userStore.profiles"
                 :key="profile.profile_id"
                 :profile="profile"
+                @edit="onEditProfile"
               />
             </q-card>
           </div>
@@ -97,6 +98,7 @@
         <NewProfile
           v-model="showNewProfile"
           :user-id="store.user.user_id"
+          :profile-id="currentProfileId"
           @profile-saved="onProfileSaved"
         />
       </q-page-container>
@@ -115,6 +117,7 @@ const store = useAuthStore()
 const userStore = useUserStore()
 
 const showNewProfile = ref(false)
+const currentProfileId = ref(null)
 
 // Lade die Profile wenn die Komponente gemountet ist
 onMounted(async () => {
@@ -122,9 +125,16 @@ onMounted(async () => {
 })
 const onProfileSaved = async () => {
   showNewProfile.value = false
+  currentProfileId.value = null
   await userStore.getProfilesFromUser(store.user.user_id)
 }
 const onNeuesProfil = () => {
+  currentProfileId.value = null
+  showNewProfile.value = true
+}
+
+const onEditProfile = (profile) => {
+  currentProfileId.value = profile.profile_id
   showNewProfile.value = true
 }
 </script>

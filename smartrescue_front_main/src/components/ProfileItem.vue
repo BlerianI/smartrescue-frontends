@@ -119,8 +119,11 @@ const toggleExpanded = () => {
   isExpanded.value = !isExpanded.value
 }
 
+const emit = defineEmits(['edit'])
+
 const onEdit = (profile) => {
   console.log('Bearbeiten:', profile.first_name, profile.last_name)
+  emit('edit', profile)
 }
 
 const onDelete = (profile) => {

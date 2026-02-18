@@ -89,10 +89,67 @@ export const useUserStore = defineStore('user', () => {
     return documents
   }
 
+  /* 
+   * -- GET DETAILS --
+   */
+  const getProfileDetails = async (profileId) => {
+    try {
+      const response = await axios.get(`${API_URL}/user/profiles/${profileId}/details`)
+      return response.data
+    } catch (err) {
+      console.error('Fehler beim Laden der Profildetails:', err)
+      throw err
+    }
+  }
+
+  /* 
+   * -- UPDATE ACTIONS --
+   */
+  const updatePersonal = async (profileId, personalData) => {
+    const response = await axios.patch(`${API_URL}/user/profiles/${profileId}`, personalData)
+    return response.data
+  }
+
+  const updateDoctor = async (doctorId, doctorData) => {
+    const response = await axios.patch(`${API_URL}/user/doctor/${doctorId}`, doctorData)
+    return response.data
+  }
+
+  const updateEmergencyContact = async (contactId, contactData) => {
+    const response = await axios.patch(`${API_URL}/user/emergency_contacts/${contactId}`, contactData)
+    return response.data
+  }
+
+  const updateMeddata = async (medId, medicalData) => {
+    const response = await axios.patch(`${API_URL}/user/meddata/${medId}`, medicalData)
+    return response.data
+  }
+
+  const updateMedication = async (medicationId, medicationData) => {
+    const response = await axios.patch(`${API_URL}/user/medications/${medicationId}`, medicationData)
+    return response.data
+  }
+
+  const updateCondition = async (conditionId, conditionData) => {
+    const response = await axios.patch(`${API_URL}/user/med_conditions/${conditionId}`, conditionData)
+    return response.data
+  }
+
+  const updateAllergy = async (allergyId, allergyData) => {
+    const response = await axios.patch(`${API_URL}/user/allergies/${allergyId}`, allergyData)
+    return response.data
+  }
+
+  const updateDocument = async (documentId, documentData) => {
+    const response = await axios.patch(`${API_URL}/user/documents/${documentId}`, documentData)
+    return response.data
+  }
+
   return {
     profiles,
     getProfilesFromUser,
     deleteProfileFromUser,
+    getProfileDetails,
     savePersonal,
     saveDoctor,
     saveEmergencyContacts,
@@ -101,5 +158,13 @@ export const useUserStore = defineStore('user', () => {
     saveConditions,
     saveAllergies,
     saveDocuments,
+    updatePersonal,
+    updateDoctor,
+    updateEmergencyContact,
+    updateMeddata,
+    updateMedication,
+    updateCondition,
+    updateAllergy,
+    updateDocument,
   }
 })
