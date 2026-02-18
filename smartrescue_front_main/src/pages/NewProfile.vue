@@ -60,18 +60,23 @@
           />
         </q-stepper>
         <!-- Step 1: Persönliche Daten -->
-        <StepPersonal v-if="step === 1" v-model="formData.personal" />
+        <StepPersonal
+          v-if="step === 1"
+          v-model:personal="formData.personal"
+          ref="stepPersonalRef"
+        />
 
         <!-- Step 2: Doktor und Notfallkontakte -->
         <StepDoctor
           v-if="step === 2"
           v-model:doctor="formData.doctor"
           v-model:emergencyContacts="formData.emergencyContacts"
+          ref="stepDoctorRef"
         />
 
         <!-- Step 3: Medizinische Daten -->
         <!-- Step 3: Medizinische Daten -->
-        <StepMedical v-if="step === 3" v-model="formData.medical" />
+        <StepMedical v-if="step === 3" v-model:medical="formData.medical" ref="stepMedicalRef" />
 
         <!-- Step 4: Bestätigung -->
         <StepConfirm v-if="step === 4" :data="formData" />
@@ -116,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineProps, defineEmits, reactive } from 'vue'
+import { ref, watch, reactive, toRaw } from 'vue'
 import { useUserStore } from 'src/stores/userStore'
 import StepPersonal from '../components/StepPersonal.vue'
 import StepMedical from '../components/StepMedical.vue'
@@ -128,21 +133,19 @@ const props = defineProps({
   userId: String,
 })
 
-const store = useUserStore()
 const emit = defineEmits(['update:modelValue', 'profile-saved'])
-
+const userStore = useUserStore()
 const isOpen = ref(props.modelValue)
 const step = ref(1)
+const stepPersonalRef = ref(null)
+const stepDoctorRef = ref(null)
+const stepMedicalRef = ref(null)
 
 watch(
   () => props.modelValue,
   (v) => (isOpen.value = v),
 )
 watch(isOpen, (v) => emit('update:modelValue', v))
-
-const onClose = () => {
-  emit('update:modelValue', false)
-}
 
 const formData = reactive({
   personal: {
@@ -157,19 +160,19 @@ const formData = reactive({
     weight: '',
     height: '',
     bloodtype: '',
-    avatar: null,
+    avatar_url: '',
   },
 
   doctor: {
     first_name: '',
     last_name: '',
     street: '',
+    city: '',
     housenumber: '',
     postalcode: '',
-    city: '',
-    phone: '',
-    title: '',
     specialty: '',
+    phone_number: '',
+    title: '',
   },
 
   emergencyContacts: [],
@@ -182,17 +185,87 @@ const formData = reactive({
     documents: [],
   },
 })
-const nextStep = () => step.value < 4 && step.value++
-const previousStep = () => step.value > 1 && step.value--
 
-const saveProfile = async () => {
+async function saveProfile() {
   try {
-    await store.saveProfileWithAllData(props.userId)
+    // Fallback for empty avatar_url
+    if (!formData.personal.avatar_url || formData.personal.avatar_url.trim() === '') {
+      formData.personal.avatar_url = 'https://img.freepik.com/vektoren-premium/vektorflat-illustration-in-grauen-farben-avatar-benutzerprofil-person-ikonen-geschlechtsneutrale-silhouette-profilbild-geeignet-fuer-social-media-profilen-ikonen-bildschirmschutz-und-als-vorlagex9_719432-848.jpg';
+    }
+    const personalData = toRaw(formData.personal);
+    const doctorData = toRaw(formData.doctor);
+    const emergencyContactsData = toRaw(formData.emergencyContacts);
+    const medicalData = toRaw(formData.medical);
+    const medicationsData = toRaw(formData.medical?.medications || []);
+    const conditionsData = toRaw(formData.medical?.conditions || []);
+    const allergiesData = toRaw(formData.medical?.allergies || []);
+    //const documentsData = toRaw(formData.medical?.documents || []);
+    
+    // Logging check  
+    console.log('START: saveProfile called');
+
+    // Save Personal Data
+    const savePersonal = await userStore.savePersonal(props.userId, personalData)
+    console.log('savePersonal', savePersonal); 
+
+    // Save Doctor Data
+    // Save Doctor Data
+    const saveDoctor = await userStore.saveDoctor(savePersonal.profile_id, doctorData);
+    console.log('saveDoctor', saveDoctor); 
+
+    // Save Emergency Contacts if needed
+    if (formData.emergencyContacts && formData.emergencyContacts.length > 0) {
+        const saveEmergency = await userStore.saveEmergencyContacts(savePersonal.profile_id, emergencyContactsData);
+        console.log('saveEmergency', saveEmergency); 
+    }
+
+    // Save Medical Data
+    const saveMedical = await userStore.saveMeddata(savePersonal.profile_id, medicalData); 
+    console.log('saveMedical', saveMedical); 
+
+    //Save Medication
+    const saveMedication = await userStore.saveMedication(saveMedical.med_id, medicationsData); 
+    console.log('saveMedication', saveMedication); 
+
+    //Save Condittaions 
+    const saveConditions = await userStore.saveConditions(saveMedical.med_id, conditionsData); 
+    console.log('saveConditions', saveConditions); 
+
+    //Save Allergies
+    const saveAllergies = await userStore.saveAllergies(saveMedical.med_id, allergiesData); 
+    console.log('saveAllergies', saveAllergies); 
+
+    //Save Documents
+    //console.log('documentsData', documentsData); 
+    //const saveDocuments = await userStore.saveDocuments(saveMedical.med_id, documentsData); 
+    //console.log('saveDocuments', saveDocuments); 
+
     emit('profile-saved')
-    emit('update:modelValue', false)
-  } catch (err) {
-    console.error('Fehler beim Speichern:', err)
+  } catch (error) {
+    console.error('ERROR in saveProfile:', error);
   }
+}
+async function nextStep() {
+  if (step.value === 1) {
+    const isValid = await stepPersonalRef.value.validate()
+    if (!isValid) return
+  }
+  if (step.value === 2) {
+    const isValid = await stepDoctorRef.value.validate()
+    if (!isValid) return
+  }
+  if (step.value === 3) {
+    const isValid = await stepMedicalRef.value.validate()
+    if (!isValid) return
+  }
+  step.value < 4 && step.value++
+}
+
+function previousStep() {
+  step.value > 1 && step.value--
+}
+const onClose = () => {
+  emit('update:modelValue', false)
 }
 </script>
 

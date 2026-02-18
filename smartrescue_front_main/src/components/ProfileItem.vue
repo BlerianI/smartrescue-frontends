@@ -1,5 +1,5 @@
 <template>
-  <div v-for="profile in props.profiles" :key="profile.profile_id">
+  <div>
     <div class="profile-row row items-center q-px-lg q-py-md">
       <div class="col-5 row items-center">
         <q-avatar size="56px">
@@ -21,6 +21,17 @@
           flat
           round
           dense
+          icon="picture_as_pdf"
+          color="blue-grey-5"
+          size="md"
+          @click="generatePDF(profile)"
+        >
+          <q-tooltip>PDF-Karte erstellen</q-tooltip>
+        </q-btn>
+        <q-btn
+          flat
+          round
+          dense
           icon="delete"
           color="blue-grey-5"
           size="md"
@@ -32,15 +43,15 @@
           flat
           round
           dense
-          :icon="expandedProfiles[profile.profile_id] ? 'expand_less' : 'expand_more'"
+          :icon="isExpanded ? 'expand_less' : 'expand_more'"
           color="grey-9"
           size="md"
-          @click="toggleExpanded(profile.profile_id)"
+          @click="toggleExpanded"
         />
       </div>
     </div>
     <q-slide-transition>
-      <div v-show="expandedProfiles[profile.profile_id]" class="expanded-section">
+      <div v-show="isExpanded" class="expanded-section">
         <div class="q-px-lg q-py-md">
           <div class="text-weight-medium text-grey-7 q-mb-md">Profil Details</div>
           <div class="history-item row items-start q-pa-md">
@@ -88,22 +99,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
+import { useUserStore } from 'src/stores/userStore'
+import { usePDFStore } from 'src/stores/pdfStore'
+import axios from 'axios'
+const userStore = useUserStore()
+const pdfStore = usePDFStore()
 
 const props = defineProps({
-  profiles: {
-    type: Array,
+  profile: {
+    type: Object,
     required: true,
   },
 })
-console.log('Alle Profile:', props.profiles)
-props.profiles.forEach((p) => {
-  console.log(`Profil: ${p.first_name} ${p.last_name}`)
-})
-const expandedProfiles = ref({})
+console.log('URL:', props.profile.avatar_url)
+const isExpanded = ref(false)
 
-const toggleExpanded = (profileId) => {
-  expandedProfiles.value[profileId] = !expandedProfiles.value[profileId]
+const toggleExpanded = () => {
+  isExpanded.value = !isExpanded.value
 }
 
 const onEdit = (profile) => {
@@ -111,6 +124,31 @@ const onEdit = (profile) => {
 }
 
 const onDelete = (profile) => {
-  console.log('Löschen:', profile.first_name, profile.last_name)
+  console.log(profile.user_id)
+  userStore.deleteProfileFromUser(profile.profile_id, profile.user_id)
+}
+
+const generatePDF = async (profile) => {
+  try {
+    console.log('PDF erstellen für:', profile.first_name, profile.last_name)
+    console.log('Profil-ID:', profile.profile_id)
+    const profileDataPdf = toRaw(await pdfStore.getProfilePDF(profile.profile_id));
+    console.log('PDF-Daten erhalten:', profileDataPdf)
+    const response = await axios.post('http://localhost:3000/api/v1/pdf/generate', profileDataPdf, {
+      responseType: 'blob',
+    })
+
+    // PDF als Blob herunterladen
+    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `${profile.first_name}_${profile.last_name}_SmartRescue.pdf`)
+    document.body.appendChild(link)
+    link.click()
+    link.parentNode.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } catch (error) {
+    console.error('Fehler beim PDF-Download:', error)
+  }
 }
 </script>

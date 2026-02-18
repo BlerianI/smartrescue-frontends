@@ -89,7 +89,7 @@
               <ProfileItem
                 v-for="profile in userStore.profiles"
                 :key="profile.profile_id"
-                :profiles="userStore.profiles"
+                :profile="profile"
               />
             </q-card>
           </div>
@@ -120,7 +120,10 @@ const showNewProfile = ref(false)
 onMounted(async () => {
   await userStore.getProfilesFromUser(store.user.user_id)
 })
-
+const onProfileSaved = async () => {
+  showNewProfile.value = false
+  await userStore.getProfilesFromUser(store.user.user_id)
+}
 const onNeuesProfil = () => {
   showNewProfile.value = true
 }
