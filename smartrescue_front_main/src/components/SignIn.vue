@@ -98,7 +98,6 @@ const handleSubmit = async () => {
       throw new Error('Login fehlgeschlagen')
     }
 
-    // 3. Erst dann navigieren
     await router.push('/profile')
   } catch (error) {
     console.error('Login Error:', error)
