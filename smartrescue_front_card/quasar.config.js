@@ -11,7 +11,7 @@ export default defineConfig((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [],
+    boot: ['axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -21,7 +21,7 @@ export default defineConfig((/* ctx */) => {
       // 'ionicons-v4',
       // 'mdi-v7',
       // 'fontawesome-v6',
-      'eva-icons',
+      // 'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
@@ -37,7 +37,7 @@ export default defineConfig((/* ctx */) => {
         node: 'node20',
       },
 
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -141,7 +141,7 @@ export default defineConfig((/* ctx */) => {
       // swFilename: 'sw.js',
       // manifestFilename: 'manifest.json',
       // extendManifestJson (json) {},
-      useCredentialsForManifestTag: true,
+      // useCredentialsForManifestTag: true,
       // injectPwaMetaTags: false,
       // extendPWACustomSWConf (esbuildConf) {},
       // extendGenerateSWOptions (cfg) {},
@@ -185,9 +185,9 @@ export default defineConfig((/* ctx */) => {
       },
 
       builder: {
-        // https://www.electron.build/configuration/configuration
+        // https://www.electron.build/configuration
 
-        appId: 'smartrescue-front-main',
+        appId: 'smartrescue-front-card',
       },
     },
 
