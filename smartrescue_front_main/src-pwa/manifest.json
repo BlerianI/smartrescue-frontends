@@ -2,7 +2,7 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#027be3",
-  "start_url": "/auth",
+  "start_url": "/",
   "name": "Smart Rescue",
   "short_name": "SR",
   "display": "standalone",

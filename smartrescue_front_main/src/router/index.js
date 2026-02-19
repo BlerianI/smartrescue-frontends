@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { defineRouter } from '#q-app/wrappers'
 import {
   createRouter,
@@ -28,75 +29,31 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   })
 
-    // Router.beforeEach(async (to, from, next) => {
-    //   const authStore = useAuthStore()
+  Router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore()
 
-    //   if (!authStore.user && to.path !== '/auth') {
-    //     try {
-    //       await authStore.getCurrentUser()
-    //     } catch (error) {
-    //       console.log('Nicht eingeloggt')
-    //     }
-    //   }
-
-    //   if (to.path === '/profile' && !authStore.user) {
-    //     next('/auth')
-    //   } else if (to.path === '/auth' && authStore.user) {
-    //     next('/profile')
-    //   } else {
-    //     next()
-    //   }
-    // })
-
-    Router.beforeEach(async (to, from, next) => {
-      const authStore = useAuthStore()
-
-      console.log('🚀 Router Guard START')
-      console.log('📍 Von:', from.path, '→ Zu:', to.path)
-      console.log('👤 Store User VOR check:', authStore.user)
-
-      // Wenn wir zu /profile gehen und KEIN User da ist
-      if (to.path === '/profile' && !authStore.user) {
-        console.log('⏳ Kein User - lade User-Daten...')
-
-        try {
-          // Warte kurz (für OAuth)
-          await new Promise((resolve) => setTimeout(resolve, 300))
-
-          console.log('📡 Rufe getCurrentUser() auf...')
-          await authStore.getCurrentUser()
-
-          console.log('👤 Store User NACH check:', authStore.user)
-
-          if (!authStore.user) {
-            console.log('❌ Immer noch kein User - redirect zu /auth')
-            return next('/auth')
-          }
-
-          console.log('✅ User gefunden - weiter zu /profile')
-          next()
-        } catch (error) {
-          console.error('❌ getCurrentUser Fehler:', error)
-          next('/auth')
-        }
+    if (!authStore.user) {
+      try {
+        await authStore.getCurrentUser()
+      } catch (error) {
       }
-      // Wenn wir zu /auth gehen und User IST da
-      else if (to.path === '/auth' && authStore.user) {
-        console.log('✅ User existiert - redirect zu /profile')
-        next('/profile')
+    }
+
+    if (to.meta.requiresAuth || to.path === '/profile') {
+      if (!authStore.user) {
+        return next('/auth')
       }
-      // Alle anderen Routen
-      else {
-        console.log('➡️ Normale Navigation')
-        next()
-      }
-    })
+    }
+
+    if (to.path === '/auth' && authStore.user) {
+      return next('/profile')
+    }
+
+    next()
+  })
 
   return Router
 })
