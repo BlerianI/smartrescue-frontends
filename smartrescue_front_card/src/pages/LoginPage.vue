@@ -21,7 +21,7 @@
         <div class="instruction-section">
           <div class="instruction-box">
             <q-icon name="info" size="24px" class="instruction-icon" />
-            <p class="instruction-text">Scannen Sie jetzt den QR-Code auf Ihrem Armband</p>
+            <p class="instruction-text">Scannen Sie jetzt den QR-Code im inneren des Armbandes</p>
           </div>
         </div>
 
@@ -36,8 +36,12 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 function handleLogin() {
-  console.log('Anmelden clicked')
+  router.push('/scanner')
 }
 </script>
 

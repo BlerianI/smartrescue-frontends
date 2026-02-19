@@ -1,21 +1,11 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
+import { defineStore } from 'pinia'
+// import { ref } from 'vue'
+// import axios from 'axios'
 
-export const useCounterStore = defineStore('counter', {
-  state: () => ({
-    counter: 0,
-  }),
+// const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
 
-  getters: {
-    doubleCount: (state) => state.counter * 2,
-  },
+export const usePDFStore = defineStore('pdfStore', () => {
+  // const profile = ref([])
 
-  actions: {
-    increment() {
-      this.counter++
-    },
-  },
+  return {  }
 })
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useCounterStore, import.meta.hot))
-}
