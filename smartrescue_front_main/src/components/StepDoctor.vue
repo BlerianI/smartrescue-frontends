@@ -1,6 +1,6 @@
 <template>
   <div class="justify-center text-center text-h6 q-mb-md" style="color: #5a6c7d; font-weight: 500">
-    Doktor
+    Hausarzt
   </div>
   <q-form ref="formRef">
     <div class="row q-col-gutter-md">
@@ -42,8 +42,7 @@
         >
         </q-input>
       </div>
-    </div>
-    <div class="row q-col-gutter-md">
+
       <div class="col-6">
         <label class="field-label">STRASSE</label>
         <q-input
@@ -112,8 +111,7 @@
         >
         </q-input>
       </div>
-    </div>
-    <div class="row q-col-gutter-md q-mt-md">
+
       <!-- PHONE NUMBER -->
       <div class="col-6">
         <label class="field-label">TELEFONNUMMER</label>
@@ -156,10 +154,8 @@
         >
         </q-select>
       </div>
-    </div>
 
-    <!-- SPECIALTY FULL WIDTH -->
-    <div class="row q-col-gutter-md q-mt-md">
+      <!-- SPECIALTY FULL WIDTH -->
       <div class="col-12">
         <label class="field-label">FACHRICHTUNG</label>
         <q-select

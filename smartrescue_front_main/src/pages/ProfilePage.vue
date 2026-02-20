@@ -14,7 +14,10 @@
         :width="250"
         class="sidebar-drawer shadow-1"
       >
-        <div class="q-pa-md flex flex-center bg-white full-width rounded-borders">
+        <div
+          class="q-pa-md flex flex-center bg-white full-width rounded-borders cursor-pointer"
+          @click="onLogoClick"
+        >
           <img
             src="/Logo1000x350.png"
             alt="Logo"
@@ -23,7 +26,7 @@
         </div>
         <q-separator class="separator-line" />
 
-        <q-list class="q-px-md">
+        <!-- <q-list class="q-px-md">
           <q-item v-for="i in 5" :key="i" clickable class="nav-item q-mb-xs">
             <q-item-section avatar>
               <q-avatar color="primary" text-color="white" size="32px">
@@ -34,7 +37,7 @@
               <q-item-label class="text-weight-medium">Lorem</q-item-label>
             </q-item-section>
           </q-item>
-        </q-list>
+        </q-list> -->
 
         <div class="absolute-bottom full-width">
           <q-separator class="separator-line" />
@@ -65,7 +68,7 @@
                   Meine Notfall-Profile
                 </h4>
                 <p class="text-body2 text-grey-6 q-mt-xs q-mb-none">
-                  Es ist Aykut Anhan, Hermann-Steinhäuser Straße Mainpark
+                  Alle deine Notfallarmband-Profile an einem Ort – verwalten, anpassen und als PDF sichern.
                 </p>
               </div>
 
@@ -109,9 +112,11 @@
 import { useAuthStore } from 'src/stores/authStore'
 import { useUserStore } from 'src/stores/userStore'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import ProfileItem from 'src/components/ProfileItem.vue'
 import NewProfile from './NewProfile.vue'
 
+const router = useRouter()
 const drawer = ref(true)
 const store = useAuthStore()
 const userStore = useUserStore()
@@ -136,6 +141,10 @@ const onNeuesProfil = () => {
 const onEditProfile = (profile) => {
   currentProfileId.value = profile.profile_id
   showNewProfile.value = true
+}
+
+const onLogoClick = () => {
+  router.push('/')
 }
 </script>
 

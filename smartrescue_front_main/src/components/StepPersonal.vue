@@ -244,7 +244,10 @@
               v-for="type in bloodTypes"
               :key="type"
               class="bloodtype-option"
-              :class="{ active: personal.bloodtype === type }"
+              :class="{
+                active: personal.bloodtype === type,
+                'full-width': type === 'Nicht bekannt',
+              }"
               @click="personal.bloodtype = type"
             >
               <span class="bloodtype-text">{{ type }}</span>
@@ -262,7 +265,17 @@ import { useQuasar } from 'quasar'
 const $q = useQuasar()
 const formRef = ref(null)
 
-const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-']
+const bloodTypes = [
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'AB+',
+  'AB-',
+  '0+',
+  '0-',
+  'Nicht bekannt',
+]
 const props = defineProps({
   personal: {
     type: Object,
@@ -427,5 +440,10 @@ defineExpose({
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
+
+.bloodtype-option.full-width {
+  grid-column: 1 / -1;
+  margin-top: 4px;
 }
 </style>
