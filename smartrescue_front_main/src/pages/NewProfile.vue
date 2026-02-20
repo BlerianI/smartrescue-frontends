@@ -426,6 +426,7 @@ function previousStep() {
   step.value > 1 && step.value--
 }
 const onClose = () => {
+  resetForm()
   emit('update:modelValue', false)
 }
 </script>
