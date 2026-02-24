@@ -9,7 +9,10 @@
       >
         <div class="overlay-container" v-if="!error && !loading">
           <div class="scan-frame"></div>
-          <p class="scan-text">Scannen Sie den QR-Code <br> auf Ihrem Armband</p>
+          <p class="scan-text">
+            Scannen Sie den QR-Code <br />
+            auf Ihrem Armband
+          </p>
         </div>
         <div v-if="error" class="error-container">
           <q-icon name="error" size="4rem" color="negative" />
@@ -36,20 +39,58 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { QrcodeStream } from 'vue-qrcode-reader'
+import { useEmergencyStore } from '../stores/emergencyStore'
+import { useQuasar } from 'quasar'
 
 const error = ref(false)
 const errorMessage = ref('')
 const loading = ref(true)
 
+const router = useRouter()
+const store = useEmergencyStore()
+const $q = useQuasar()
+
 function onCameraOn() {
   loading.value = false
 }
 
-function onDetect(detectedCodes) {
+async function onDetect(detectedCodes) {
   const result = detectedCodes[0]
   if (result) {
-    console.log('QR Code detected:', result.rawValue)
+    const uuid = result.rawValue
+    console.log('QR Code detected:', uuid)
+
+    // UUID regex to ensure it's a valid uuid before querying backend
+    const uuidRegex =
+      /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
+
+    if (uuidRegex.test(uuid)) {
+      loading.value = true
+
+      await store.fetchEmergencyData(uuid)
+
+      if (store.error) {
+        loading.value = false
+        $q.notify({
+          type: 'negative',
+          position: 'center',
+          message: 'Es konnten keine Notfalldaten für diese Benutzer-ID gefunden werden.',
+          timeout: 4000,
+        })
+      } else {
+        router.push('/med')
+      }
+    } else {
+      $q.notify({
+        type: 'negative',
+        position: 'center',
+        message:
+          'Dieser QR-Code enthält keine gültige Notfall-ID. Bitte scannen Sie ein offizielles Armband.',
+        timeout: 4000,
+      })
+    }
   }
 }
 
