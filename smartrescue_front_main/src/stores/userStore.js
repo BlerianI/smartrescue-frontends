@@ -89,7 +89,7 @@ export const useUserStore = defineStore('user', () => {
     return documents
   }
 
-  /* 
+  /*
    * -- GET DETAILS --
    */
   const getProfileDetails = async (profileId) => {
@@ -102,7 +102,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  /* 
+  /*
    * -- UPDATE ACTIONS --
    */
   const updatePersonal = async (profileId, personalData) => {
