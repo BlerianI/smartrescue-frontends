@@ -9,6 +9,10 @@ const routes = [
     component: () => import('pages/ScannerPage.vue'),
   },
   {
+    path: '/med',
+    component: () => import('pages/MedPage.vue'),
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
   },
