@@ -69,7 +69,7 @@
             </h1>
 
             <p
-              class="text-h5 text-grey-9 q-mb-xl text-weight-light"
+              class="text-h5 text-white q-mb-xl text-weight-light"
               style="max-width: 700px; margin: 0 auto 80px auto; line-height: 1.5"
             >
               Das digitale Notfallsystem mit doppelter Sicherheit. Ersthelfer scannen, Ärzte

@@ -11,10 +11,10 @@
         </span>
       </div>
       <div class="col-3 text-center">
-        <q-badge outline label="0 Scans" color="grey-7" class="scans-badge" />
+        <q-badge outline label="0 Scans" color="primary" class="scans-badge text-weight-bold" />
       </div>
       <div class="col-4 row items-center justify-center q-gutter-sm">
-        <q-btn flat round dense icon="edit" color="blue-grey-5" size="md" @click="onEdit(profile)">
+        <q-btn flat round dense icon="edit" color="grey-6" class="hover-primary-icon" size="md" @click="onEdit(profile)">
           <q-tooltip>Bearbeiten</q-tooltip>
         </q-btn>
         <q-btn
@@ -22,7 +22,8 @@
           round
           dense
           icon="picture_as_pdf"
-          color="blue-grey-5"
+          color="grey-6"
+          class="hover-primary-icon"
           size="md"
           @click="generatePDF(profile)"
         >
@@ -33,7 +34,8 @@
           round
           dense
           icon="delete"
-          color="blue-grey-5"
+          color="grey-6"
+          class="hover-primary-icon"
           size="md"
           @click="onDelete(profile)"
         >
@@ -44,7 +46,8 @@
           round
           dense
           :icon="isExpanded ? 'expand_less' : 'expand_more'"
-          color="grey-9"
+          color="grey-7"
+          class="hover-primary-icon"
           size="md"
           @click="toggleExpanded"
         />
@@ -58,31 +61,31 @@
             <div class="col-12">
               <div class="row q-mb-sm">
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Geschlecht</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Geschlecht</div>
                   <div class="text-weight-medium text-grey-9">{{ profile.gender }}</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Geburtsdatum</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Geburtsdatum</div>
                   <div class="text-weight-medium text-grey-9">{{ profile.birthdate }}</div>
                 </div>
               </div>
               <div class="row q-mb-sm">
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Größe</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Größe</div>
                   <div class="text-weight-medium text-grey-9">{{ profile.height }} cm</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Gewicht</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Gewicht</div>
                   <div class="text-weight-medium text-grey-9">{{ profile.weight }} kg</div>
                 </div>
               </div>
               <div class="row q-mb-sm">
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Blutgruppe</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Blutgruppe</div>
                   <div class="text-weight-medium text-grey-9">{{ profile.blood_type }}</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-caption text-grey-6">Adresse</div>
+                  <div class="text-caption text-primary text-weight-bold text-uppercase">Adresse</div>
                   <div class="text-weight-medium text-grey-9">
                     {{ profile.street }} {{ profile.house_number }}, {{ profile.postal_code }}
                     {{ profile.city }}
@@ -155,3 +158,25 @@ const generatePDF = async (profile) => {
   }
 }
 </script>
+
+<style scoped>
+.profile-row {
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+.profile-row:hover {
+  background: rgba(229, 57, 53, 0.03); /* Slight red tint on hover */
+  border-left: 4px solid var(--q-primary);
+}
+.hover-primary-icon {
+  transition: all 0.3s ease;
+}
+.hover-primary-icon:hover {
+  color: var(--q-primary) !important;
+  background: rgba(229, 57, 53, 0.1) !important;
+  transform: scale(1.1);
+}
+.scans-badge {
+  background-color: rgba(229, 57, 53, 0.1) !important;
+}
+</style>

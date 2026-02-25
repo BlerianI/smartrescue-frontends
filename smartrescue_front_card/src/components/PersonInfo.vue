@@ -5,7 +5,8 @@
       <div class="row no-wrap">
         <div class="avatar-border">
           <q-avatar size="71px">
-            <img src="" alt="Avatar" />
+            <img v-if="person.avatar_url" :src="person.avatar_url" alt="Avatar" />
+            <q-icon v-else name="person" size="40px" color="grey-5" />
           </q-avatar>
         </div>
 

@@ -1,8 +1,7 @@
 <template>
   <q-dialog v-model="isOpen" persistent>
     <q-card style="width: 540px; background: white; border-radius: 12px">
-      <q-card-section class="q-pt-lg q-pb-md">
-        <div class="text-h6" style="color: #5a6c7d; font-weight: 500">Neues Profil erstellen</div>
+      <q-card-section class="bg-gradient-primary q-pt-lg q-pb-md text-white rounded-borders">
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -87,32 +86,30 @@
           v-if="step > 1"
           label="Zurück"
           flat
-          class="col action-btn"
-          style="background: #c9d4e1; color: #5a6c7d"
+          class="col action-btn text-weight-medium bg-grey-2 text-dark hover-red"
           @click="previousStep"
         />
         <q-btn
           v-else
           label="Abbrechen"
           flat
-          class="col action-btn"
-          style="background: #c9d4e1; color: #5a6c7d"
+          class="col action-btn text-weight-medium bg-grey-2 text-dark hover-red"
           @click="onClose"
         />
         <q-btn
           v-if="step < 4"
           label="Weiter"
-          flat
-          class="col action-btn"
-          style="background: #9fb4cc; color: white"
+          unelevated
+          class="col action-btn text-weight-bold"
+          color="primary"
           @click="nextStep"
         />
         <q-btn
           v-else
           label="Speichern"
-          flat
-          class="col action-btn"
-          style="background: #9fb4cc; color: white"
+          unelevated
+          class="col action-btn text-weight-bold"
+          color="primary"
           @click="saveProfile"
         />
       </q-card-actions>
@@ -431,7 +428,7 @@ const onClose = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .field-label {
   display: block;
   font-size: 11px;
@@ -452,11 +449,25 @@ const onClose = () => {
 }
 
 .action-btn {
-  border: 1px solid #b8c5d6;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 500;
   padding: 12px 24px;
   text-transform: none;
+  transition: all 0.3s ease;
+}
+.hover-red:hover {
+  color: var(--q-primary) !important;
+}
+
+$primary: #e53935;
+$secondary: #b71c1c;
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+}
+.font-display {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 /* Compact Stepper Styling */
@@ -475,7 +486,8 @@ const onClose = () => {
   width: 48px;
   height: 48px;
   font-size: 18px;
-  background: #b8c5d6 !important;
+  background: rgba(229, 57, 53, 0.15) !important;
+  color: var(--q-primary) !important;
 }
 
 .compact-stepper :deep(.q-stepper__dot .q-icon) {
@@ -483,11 +495,11 @@ const onClose = () => {
 }
 
 .compact-stepper :deep(.q-stepper__dot--active) {
-  background: #9fb4cc !important;
+  background: var(--q-primary) !important;
 }
 
 .compact-stepper :deep(.q-stepper__dot--done) {
-  background: #9fb4cc !important;
+  background: var(--q-primary) !important;
 }
 
 .compact-stepper :deep(.q-stepper__title) {
@@ -497,10 +509,10 @@ const onClose = () => {
 }
 
 .compact-stepper :deep(.q-stepper__line) {
-  background: #b8c5d6 !important;
+  background: #d4d4d4 !important;
 }
 
 .compact-stepper :deep(.q-stepper__line--active) {
-  background: #9fb4cc !important;
+  background: var(--q-primary) !important;
 }
 </style>

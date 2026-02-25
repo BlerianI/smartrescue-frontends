@@ -192,7 +192,7 @@
       <q-btn
         flat
         class="full-width q-py-sm"
-        style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+        style="background: var(--q-primary); color: white; border-radius: 8px; font-weight: 500"
         icon="add"
         label="Kontakt hinzufügen"
         @click="addEmergencyContact"
@@ -360,103 +360,7 @@ defineExpose({
 .inputs :deep(.q-field__control):before {
   border: none;
 }
-.gender-selector {
-  position: relative;
-  display: flex;
-  background: #f0f4f8;
-  border-radius: 12px;
-  padding: 4px;
-  gap: 4px;
-  height: 56px;
-}
-.gender-option {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  z-index: 2;
-  position: relative;
-}
-.gender-option span {
-  font-size: 11px;
-  font-weight: 500;
-  color: #5a6c7d;
-  transition: color 0.3s ease;
-}
 
-.gender-option .q-icon {
-  color: #8a9bb0;
-  transition: color 0.3s ease;
-}
-
-.gender-option.active span {
-  color: white;
-  font-weight: 600;
-}
-
-.gender-option.active .q-icon {
-  color: white;
-}
-
-.gender-slider {
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
-  width: calc(33.333% - 3px);
-  background: linear-gradient(135deg, #9fb4cc 0%, #7a92b0 100%);
-  border-radius: 8px;
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.bloodtype-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  background: #f0f4f8;
-  padding: 8px;
-  border-radius: 12px;
-}
-
-.bloodtype-option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 52px;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.bloodtype-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.bloodtype-option.active {
-  background: linear-gradient(135deg, #9fb4cc 0%, #7a92b0 100%);
-  border-color: #7a92b0;
-  box-shadow: 0 4px 12px rgba(159, 180, 204, 0.4);
-}
-
-.bloodtype-text {
-  font-size: 16px;
-  font-weight: 600;
-  color: #5a6c7d;
-  transition: color 0.3s ease;
-}
-
-.bloodtype-option.active .bloodtype-text {
-  color: white;
-}
 
 .birthdate-input :deep(.q-field__control) {
   border: 1px solid #b8c5d6;

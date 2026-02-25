@@ -385,11 +385,10 @@ defineExpose({
   top: 4px;
   bottom: 4px;
   width: calc(33.333% - 3px);
-  background: linear-gradient(135deg, #9fb4cc 0%, #7a92b0 100%);
+  background: var(--q-primary);
   border-radius: 8px;
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .bloodtype-grid {
@@ -415,13 +414,12 @@ defineExpose({
 
 .bloodtype-option:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(229, 57, 53, 0.05); /* Slight red tint on hover */
 }
 
 .bloodtype-option.active {
-  background: linear-gradient(135deg, #9fb4cc 0%, #7a92b0 100%);
-  border-color: #7a92b0;
-  box-shadow: 0 4px 12px rgba(159, 180, 204, 0.4);
+  background: var(--q-primary);
+  border-color: var(--q-primary);
 }
 
 .bloodtype-text {

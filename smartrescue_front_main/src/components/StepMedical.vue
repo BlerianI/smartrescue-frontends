@@ -28,7 +28,7 @@
       <q-btn
         flat
         class="full-width q-py-sm"
-        style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+        style="background: var(--q-primary); color: white; border-radius: 8px; font-weight: 500"
         label="Medikament hinzufügen"
         @click="addMedication"
       />
@@ -99,7 +99,7 @@
       <q-btn
         flat
         class="full-width q-py-sm"
-        style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+        style="background: var(--q-primary); color: white; border-radius: 8px; font-weight: 500"
         label="Erkrankung hinzufügen"
         @click="addCondition"
       />
@@ -178,7 +178,7 @@
       <q-btn
         flat
         class="full-width q-py-sm"
-        style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+        style="background: var(--q-primary); color: white; border-radius: 8px; font-weight: 500"
         label="Allergie hinzufügen"
         @click="addAllergy"
       />
@@ -231,7 +231,7 @@
       <q-btn
         flat
         class="full-width q-py-sm"
-        style="background: #9fb4cc; color: white; border-radius: 8px; font-weight: 500"
+        style="background: var(--q-primary); color: white; border-radius: 8px; font-weight: 500"
         label="Dokument hinzufügen"
         @click="addDocument"
       />
