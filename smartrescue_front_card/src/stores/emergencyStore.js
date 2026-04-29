@@ -41,7 +41,7 @@ export const useEmergencyStore = defineStore('emergencyStore', () => {
       navigator.geolocation.getCurrentPosition(
         (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
         () => resolve(null),
-        { timeout: 20000, enableHighAccuracy: false, maximumAge: 60000 },
+        { enableHighAccuracy: false, maximumAge: 60000 },
       )
     })
 
