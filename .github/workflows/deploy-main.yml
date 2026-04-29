@@ -26,7 +26,7 @@ jobs:
         with:
           context: ./smartrescue_front_main
           push: true
-          tags: ghcr.io/${{ github.repository }}/smartrescue_front_main:latest
+          tags: ghcr.io/bleriani/smartrescue-frontends/smartrescue_front_main:latest
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
 
@@ -45,7 +45,7 @@ jobs:
             set -e
 
             APP_DIR=/opt/smartrescue_front_main
-            IMAGE=ghcr.io/${{ github.repository }}/smartrescue_front_main:latest
+            IMAGE=ghcr.io/bleriani/smartrescue-frontends/smartrescue_front_main:latest
 
             mkdir -p $APP_DIR
             cd $APP_DIR
