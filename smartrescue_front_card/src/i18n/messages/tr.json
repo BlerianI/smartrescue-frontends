@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Veri yok",
+    "loading": "Yükleniyor..."
+  },
+  "language_dialog": {
+    "title": "Dil seçin",
+    "subtitle": "Lütfen tercih ettiğiniz dili seçin.",
+    "geo_failed": "Konum belirlenemedi – lütfen bir dil seçin.",
+    "detecting": "Dil konuma göre tespit ediliyor..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Doğum tarihi",
+    "years": "yaş",
+    "blood_type": "Kan grubu",
+    "weight": "Kilo",
+    "height": "Boy",
+    "gender": "Cinsiyet",
+    "address": "Ev adresi"
+  },
+  "medical": {
+    "title": "Tıbbi bilgiler",
+    "diseases": "Hastalıklar",
+    "allergies": "Alerjiler",
+    "medications": "Mevcut ilaçlar"
+  },
+  "documents": {
+    "title": "Tıbbi belgeler",
+    "view": "Belgeyi görüntüle"
+  },
+  "contacts": {
+    "title": "Acil durum kişileri"
+  },
+  "doctor": {
+    "title": "Aile hekimi"
+  },
+  "important_info": {
+    "title": "Önemli bilgi"
+  },
+  "footer": {
+    "last_updated": "Son güncelleme"
+  },
+  "emergency_services": {
+    "fire": "İtfaiye",
+    "police": "Polis",
+    "ambulance": "Ambulans"
+  }
+}

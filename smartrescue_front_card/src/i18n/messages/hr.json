@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Nema podataka",
+    "loading": "Učitavanje..."
+  },
+  "language_dialog": {
+    "title": "Odaberite jezik",
+    "subtitle": "Molimo odaberite željeni jezik.",
+    "geo_failed": "Lokacija se ne može utvrditi – odaberite jezik.",
+    "detecting": "Otkrivanje jezika prema lokaciji..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Datum rođenja",
+    "years": "godina",
+    "blood_type": "Krvna grupa",
+    "weight": "Težina",
+    "height": "Visina",
+    "gender": "Spol",
+    "address": "Adresa stanovanja"
+  },
+  "medical": {
+    "title": "Medicinski podaci",
+    "diseases": "Bolesti",
+    "allergies": "Alergije",
+    "medications": "Trenutni lijekovi"
+  },
+  "documents": {
+    "title": "Medicinski dokumenti",
+    "view": "Pogledaj dokument"
+  },
+  "contacts": {
+    "title": "Hitni kontakti"
+  },
+  "doctor": {
+    "title": "Obiteljski liječnik"
+  },
+  "important_info": {
+    "title": "Važna informacija"
+  },
+  "footer": {
+    "last_updated": "Zadnje ažurirano"
+  },
+  "emergency_services": {
+    "fire": "Vatrogasci",
+    "police": "Policija",
+    "ambulance": "Hitna pomoć"
+  }
+}

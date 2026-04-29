@@ -1,7 +1,7 @@
 <template>
   <q-card class="container q-px-md q-py-md column" style="max-width: 400px">
     <q-card-section>
-      <div class="title text-weight-medium">Notfallkontakte</div>
+      <div class="title text-weight-medium">{{ t('contacts.title') }}</div>
     </q-card-section>
 
     <template v-if="contacts && contacts.length > 0">
@@ -23,7 +23,7 @@
             {{ contact.name }}
           </div>
           <div class="text-bold" style="color: #1e293b; display: inline-block">
-            {{ contact.rolle }}
+            {{ tr(contact.rolle) }}
           </div>
           <q-separator spaced />
           <div
@@ -50,12 +50,16 @@
     </template>
 
     <q-card-section v-else class="q-pt-none">
-      <div class="text-italic" style="color: #94a3b8">Keine Angaben</div>
+      <div class="text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   contacts: Array,
 })

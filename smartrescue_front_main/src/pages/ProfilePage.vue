@@ -23,30 +23,32 @@
         <div class="q-px-md q-mt-md">
           <div class="text-caption text-grey-5 text-weight-bold text-uppercase q-mb-sm q-ml-sm font-display">Navigation</div>
           <q-list class="q-gutter-y-sm">
-            <q-item clickable class="nav-item active-nav-item rounded-borders-md transition-fast">
+            <q-item
+              v-for="item in navItems"
+              :key="item.key"
+              clickable
+              class="nav-item rounded-borders-md transition-fast"
+              :class="{ 'active-nav-item': activeTab === item.key }"
+              @click="activeTab = item.key"
+            >
               <q-item-section avatar>
-                <q-icon name="group" class="text-primary" size="24px" />
+                <q-icon
+                  :name="item.icon"
+                  :class="activeTab === item.key ? 'text-primary' : 'text-grey-6'"
+                  size="24px"
+                />
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-weight-bold text-primary font-display">Meine Profile</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable class="nav-item rounded-borders-md transition-fast">
-              <q-item-section avatar>
-                <q-icon name="settings" class="text-grey-6" size="24px" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-weight-medium text-grey-8 font-display">Einstellungen</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable class="nav-item rounded-borders-md transition-fast">
-              <q-item-section avatar>
-                <q-icon name="help_outline" class="text-grey-6" size="24px" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-weight-medium text-grey-8 font-display">Hilfe & Support</q-item-label>
+                <q-item-label
+                  class="font-display"
+                  :class="
+                    activeTab === item.key
+                      ? 'text-weight-bold text-primary'
+                      : 'text-weight-medium text-grey-8'
+                  "
+                >
+                  {{ item.label }}
+                </q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -74,7 +76,7 @@
 
       <q-page-container>
         <q-page>
-          <div class="q-pa-xl bg-grey-1" style="min-height: 100vh">
+          <div v-if="activeTab === 'profiles'" class="q-pa-xl bg-grey-1" style="min-height: 100vh">
             <div
               class="q-mb-xl q-pa-xl rounded-borders-xl bg-gradient-primary row items-center justify-between"
             >
@@ -110,9 +112,13 @@
                 :key="profile.profile_id"
                 :profile="profile"
                 @edit="onEditProfile"
+                @preview="onPreviewProfile"
               />
             </q-card>
           </div>
+
+          <SettingsView v-else-if="activeTab === 'settings'" />
+          <SupportView v-else-if="activeTab === 'support'" />
         </q-page>
         <NewProfile
           v-model="showNewProfile"
@@ -125,11 +131,13 @@
   </div>
 </template>
 <script setup>
-import { useAuthStore } from 'src/stores/authStore'
-import { useUserStore } from 'src/stores/userStore'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from 'src/stores/authStore'
+import { useUserStore } from 'src/stores/userStore'
 import ProfileItem from 'src/components/ProfileItem.vue'
+import SettingsView from 'src/components/SettingsView.vue'
+import SupportView from 'src/components/SupportView.vue'
 import NewProfile from './NewProfile.vue'
 
 const router = useRouter()
@@ -140,7 +148,13 @@ const userStore = useUserStore()
 const showNewProfile = ref(false)
 const currentProfileId = ref(null)
 
-// Lade die Profile wenn die Komponente gemountet ist
+const activeTab = ref('profiles')
+const navItems = [
+  { key: 'profiles', label: 'Meine Profile', icon: 'group' },
+  { key: 'settings', label: 'Einstellungen', icon: 'settings' },
+  { key: 'support', label: 'Hilfe & Support', icon: 'help_outline' },
+]
+
 onMounted(async () => {
   await userStore.getProfilesFromUser(store.user.user_id)
 })
@@ -157,6 +171,11 @@ const onNeuesProfil = () => {
 const onEditProfile = (profile) => {
   currentProfileId.value = profile.profile_id
   showNewProfile.value = true
+}
+
+const onPreviewProfile = (profile) => {
+  const cardUrl = import.meta.env.VITE_CARD_URL || 'https://localhost:9001'
+  window.open(`${cardUrl}/preview/${profile.external_id}`, '_blank', 'noopener,noreferrer')
 }
 
 const onLogoClick = () => {

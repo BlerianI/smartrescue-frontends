@@ -14,6 +14,18 @@
         <q-badge outline label="0 Scans" color="primary" class="scans-badge text-weight-bold" />
       </div>
       <div class="col-4 row items-center justify-center q-gutter-sm">
+        <q-btn
+          flat
+          round
+          dense
+          icon="visibility"
+          color="grey-6"
+          class="hover-primary-icon"
+          size="md"
+          @click="onPreview(profile)"
+        >
+          <q-tooltip>Vorschau</q-tooltip>
+        </q-btn>
         <q-btn flat round dense icon="edit" color="grey-6" class="hover-primary-icon" size="md" @click="onEdit(profile)">
           <q-tooltip>Bearbeiten</q-tooltip>
         </q-btn>
@@ -109,37 +121,35 @@ import axios from 'axios'
 const userStore = useUserStore()
 const pdfStore = usePDFStore()
 
-const props = defineProps({
+defineProps({
   profile: {
     type: Object,
     required: true,
   },
 })
-console.log('URL:', props.profile.avatar_url)
 const isExpanded = ref(false)
 
 const toggleExpanded = () => {
   isExpanded.value = !isExpanded.value
 }
 
-const emit = defineEmits(['edit'])
+const emit = defineEmits(['edit', 'preview'])
 
 const onEdit = (profile) => {
-  console.log('Bearbeiten:', profile.first_name, profile.last_name)
   emit('edit', profile)
 }
 
+const onPreview = (profile) => {
+  emit('preview', profile)
+}
+
 const onDelete = (profile) => {
-  console.log(profile.user_id)
   userStore.deleteProfileFromUser(profile.profile_id, profile.user_id)
 }
 
 const generatePDF = async (profile) => {
   try {
-    console.log('PDF erstellen für:', profile.first_name, profile.last_name)
-    console.log('Profil-ID:', profile.profile_id)
-    const profileDataPdf = toRaw(await pdfStore.getProfilePDF(profile.profile_id));
-    console.log('PDF-Daten erhalten:', profileDataPdf)
+    const profileDataPdf = toRaw(await pdfStore.getProfilePDF(profile.profile_id))
     const response = await axios.post('http://localhost:3000/api/v1/pdf/generate', profileDataPdf, {
       responseType: 'blob',
     })

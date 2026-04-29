@@ -9,7 +9,7 @@
     "
   >
     <q-card-section>
-      <div class="title text-weight-medium" style="color: #1e293b">Hausarzt</div>
+      <div class="title text-weight-medium" style="color: #1e293b">{{ t('doctor.title') }}</div>
     </q-card-section>
 
     <q-card-section class="q-pt-none q-pb-none">
@@ -20,7 +20,7 @@
           <div class="text-weight-medium text-bold" style="font-size: 16px; color: #1e293b">
             {{ doctor.name }}
           </div>
-          <div class="text-caption" style="color: #64748b">{{ doctor.richtung }}</div>
+          <div class="text-caption" style="color: #64748b">{{ tr(doctor.richtung) }}</div>
         </div>
       </div>
     </q-card-section>
@@ -61,6 +61,10 @@
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   doctor: Object,
 })

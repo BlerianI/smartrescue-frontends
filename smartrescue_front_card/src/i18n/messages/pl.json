@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Brak danych",
+    "loading": "Ładowanie..."
+  },
+  "language_dialog": {
+    "title": "Wybierz język",
+    "subtitle": "Proszę wybrać preferowany język.",
+    "geo_failed": "Nie można ustalić lokalizacji – wybierz język.",
+    "detecting": "Wykrywanie języka na podstawie lokalizacji..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Urodzony(a)",
+    "years": "lat",
+    "blood_type": "Grupa krwi",
+    "weight": "Waga",
+    "height": "Wzrost",
+    "gender": "Płeć",
+    "address": "Adres zamieszkania"
+  },
+  "medical": {
+    "title": "Dane medyczne",
+    "diseases": "Schorzenia",
+    "allergies": "Alergie",
+    "medications": "Aktualne leki"
+  },
+  "documents": {
+    "title": "Dokumenty medyczne",
+    "view": "Zobacz dokument"
+  },
+  "contacts": {
+    "title": "Kontakty awaryjne"
+  },
+  "doctor": {
+    "title": "Lekarz rodzinny"
+  },
+  "important_info": {
+    "title": "Ważna informacja"
+  },
+  "footer": {
+    "last_updated": "Ostatnia aktualizacja"
+  },
+  "emergency_services": {
+    "fire": "Straż pożarna",
+    "police": "Policja",
+    "ambulance": "Pogotowie"
+  }
+}

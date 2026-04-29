@@ -1,12 +1,14 @@
 <template>
   <div>
     <q-toolbar class="footer">
-      <q-toolbar-title class="title">Last Updated: {{ date }}</q-toolbar-title>
+      <q-toolbar-title class="title">{{ t('footer.last_updated') }}: {{ date }}</q-toolbar-title>
     </q-toolbar>
   </div>
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+const { t } = useI18n()
 defineProps({
   date: String,
 })

@@ -60,9 +60,7 @@ async function onDetect(detectedCodes) {
   const result = detectedCodes[0]
   if (result) {
     const uuid = result.rawValue
-    console.log('QR Code detected:', uuid)
 
-    // UUID regex to ensure it's a valid uuid before querying backend
     const uuidRegex =
       /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 

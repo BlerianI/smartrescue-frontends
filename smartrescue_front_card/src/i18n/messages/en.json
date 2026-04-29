@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "No data",
+    "loading": "Loading..."
+  },
+  "language_dialog": {
+    "title": "Choose Language",
+    "subtitle": "Please select your preferred language.",
+    "geo_failed": "Location could not be determined – please choose a language.",
+    "detecting": "Detecting language based on location..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Born",
+    "years": "years",
+    "blood_type": "Blood Type",
+    "weight": "Weight",
+    "height": "Height",
+    "gender": "Gender",
+    "address": "Home Address"
+  },
+  "medical": {
+    "title": "Medical Data",
+    "diseases": "Medical Conditions",
+    "allergies": "Allergies",
+    "medications": "Current Medications"
+  },
+  "documents": {
+    "title": "Medical Documents",
+    "view": "View Document"
+  },
+  "contacts": {
+    "title": "Emergency Contacts"
+  },
+  "doctor": {
+    "title": "Family Doctor"
+  },
+  "important_info": {
+    "title": "Important Information"
+  },
+  "footer": {
+    "last_updated": "Last updated"
+  },
+  "emergency_services": {
+    "fire": "Fire",
+    "police": "Police",
+    "ambulance": "Ambulance"
+  }
+}

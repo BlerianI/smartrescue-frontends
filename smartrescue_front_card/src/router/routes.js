@@ -13,6 +13,10 @@ const routes = [
     component: () => import('pages/MedPage.vue'),
   },
   {
+    path: '/preview/:id',
+    component: () => import('pages/PreviewPage.vue'),
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
   },

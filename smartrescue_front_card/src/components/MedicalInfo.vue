@@ -9,16 +9,15 @@
     "
   >
     <q-card-section>
-      <div class="title text-weight-medium" style="color: #1e293b">Medizinische Daten</div>
+      <div class="title text-weight-medium" style="color: #1e293b">{{ t('medical.title') }}</div>
     </q-card-section>
 
     <q-card-section class="q-pt-xs">
-      <div style="color: #64748b; font-size: 16px">Medizinische Erkrankungen</div>
+      <div style="color: #64748b; font-size: 16px">{{ t('medical.diseases') }}</div>
       <div class="q-mt-sm" v-if="deaseses && deaseses.length > 0">
         <q-chip
           v-for="deases of deaseses"
           :key="deases"
-          v-text="deases"
           :style="{
             'background-color': '#fee2e2',
             color: '#991b1b',
@@ -26,18 +25,19 @@
             'border-radius': '10px',
           }"
           class="q-mr-sm q-mb-sm"
-        />
+        >
+          {{ tr(deases) }}
+        </q-chip>
       </div>
-      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">Keine Angaben</div>
+      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
     </q-card-section>
 
     <q-card-section class="q-pt-xs">
-      <div style="color: #64748b; font-size: 16px">Allergien</div>
+      <div style="color: #64748b; font-size: 16px">{{ t('medical.allergies') }}</div>
       <div class="q-mt-sm" v-if="allergies && allergies.length > 0">
         <q-chip
           v-for="allergy of allergies"
           :key="allergy"
-          v-text="allergy"
           :style="{
             'background-color': '#ffedd5',
             color: '#c2410c',
@@ -45,13 +45,15 @@
             'border-radius': '10px',
           }"
           class="q-mr-sm q-mb-sm"
-        />
+        >
+          {{ tr(allergy) }}
+        </q-chip>
       </div>
-      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">Keine Angaben</div>
+      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
     </q-card-section>
 
     <q-card-section class="q-pt-xs" style="max-width: 400px">
-      <div style="color: #64748b; font-size: 16px">Aktuelle Medikamente</div>
+      <div style="color: #64748b; font-size: 16px">{{ t('medical.medications') }}</div>
 
       <div class="q-mt-sm" v-if="medications && medications.length > 0">
         <q-chip
@@ -65,15 +67,19 @@
           "
           class="q-mb-sm"
         >
-          {{ medication.name }} | {{ medication.frequency }}
+          {{ tr(medication.name) }} | {{ tr(medication.frequency) }}
         </q-chip>
       </div>
-      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">Keine Angaben</div>
+      <div v-else class="q-mt-xs text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   deaseses: Array,
   allergies: Array,

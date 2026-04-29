@@ -9,7 +9,9 @@
     "
   >
     <q-card-section>
-      <div class="title text-weight-medium" style="color: #1e293b">Medizinische Bescheide</div>
+      <div class="title text-weight-medium" style="color: #1e293b">
+        {{ t('documents.title') }}
+      </div>
     </q-card-section>
 
     <q-card-section class="q-pt-xs">
@@ -19,7 +21,7 @@
           :key="doc.url"
           :href="doc.url"
           target="_blank"
-          :label="doc.title || 'Bescheid ansehen'"
+          :label="tr(doc.title) || t('documents.view')"
           class="q-mb-sm"
           style="
             background: linear-gradient(135deg, #ef4444, #dc2626);
@@ -31,12 +33,16 @@
           unelevated
         />
       </template>
-      <div v-else class="text-italic" style="color: #94a3b8">Keine Angaben</div>
+      <div v-else class="text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   documents: Array,
 })

@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Keine Angaben",
+    "loading": "Wird geladen..."
+  },
+  "language_dialog": {
+    "title": "Sprache wählen",
+    "subtitle": "Bitte wählen Sie Ihre bevorzugte Sprache.",
+    "geo_failed": "Standort konnte nicht ermittelt werden – bitte Sprache auswählen.",
+    "detecting": "Sprache wird anhand des Standorts erkannt..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Geboren",
+    "years": "Jahre",
+    "blood_type": "Blutgruppe",
+    "weight": "Gewicht",
+    "height": "Größe",
+    "gender": "Geschlecht",
+    "address": "Wohnadresse"
+  },
+  "medical": {
+    "title": "Medizinische Daten",
+    "diseases": "Medizinische Erkrankungen",
+    "allergies": "Allergien",
+    "medications": "Aktuelle Medikamente"
+  },
+  "documents": {
+    "title": "Medizinische Bescheide",
+    "view": "Bescheid ansehen"
+  },
+  "contacts": {
+    "title": "Notfallkontakte"
+  },
+  "doctor": {
+    "title": "Hausarzt"
+  },
+  "important_info": {
+    "title": "Wichtige Information"
+  },
+  "footer": {
+    "last_updated": "Zuletzt aktualisiert"
+  },
+  "emergency_services": {
+    "fire": "Feuerwehr",
+    "police": "Polizei",
+    "ambulance": "Rettung"
+  }
+}

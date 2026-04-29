@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Pa të dhëna",
+    "loading": "Po ngarkohet..."
+  },
+  "language_dialog": {
+    "title": "Zgjidhni gjuhën",
+    "subtitle": "Ju lutemi zgjidhni gjuhën tuaj të preferuar.",
+    "geo_failed": "Vendndodhja nuk mund të përcaktohej – zgjidhni gjuhën.",
+    "detecting": "Po zbulohet gjuha sipas vendndodhjes..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Lindur",
+    "years": "vjeç",
+    "blood_type": "Grupi i gjakut",
+    "weight": "Pesha",
+    "height": "Gjatësia",
+    "gender": "Gjinia",
+    "address": "Adresa"
+  },
+  "medical": {
+    "title": "Të dhëna mjekësore",
+    "diseases": "Sëmundjet",
+    "allergies": "Alergjitë",
+    "medications": "Medikamentet aktuale"
+  },
+  "documents": {
+    "title": "Dokumente mjekësore",
+    "view": "Shiko dokumentin"
+  },
+  "contacts": {
+    "title": "Kontaktet e emergjencës"
+  },
+  "doctor": {
+    "title": "Mjeku i familjes"
+  },
+  "important_info": {
+    "title": "Informacion i rëndësishëm"
+  },
+  "footer": {
+    "last_updated": "Përditësuar së fundmi"
+  },
+  "emergency_services": {
+    "fire": "Zjarrfikësit",
+    "police": "Policia",
+    "ambulance": "Ambulanca"
+  }
+}

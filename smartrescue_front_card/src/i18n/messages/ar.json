@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "لا توجد بيانات",
+    "loading": "جارٍ التحميل..."
+  },
+  "language_dialog": {
+    "title": "اختر اللغة",
+    "subtitle": "الرجاء اختيار لغتك المفضلة.",
+    "geo_failed": "تعذّر تحديد الموقع – الرجاء اختيار لغة.",
+    "detecting": "يتم اكتشاف اللغة بناءً على الموقع..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "تاريخ الميلاد",
+    "years": "سنة",
+    "blood_type": "فصيلة الدم",
+    "weight": "الوزن",
+    "height": "الطول",
+    "gender": "الجنس",
+    "address": "العنوان"
+  },
+  "medical": {
+    "title": "البيانات الطبية",
+    "diseases": "الأمراض",
+    "allergies": "الحساسية",
+    "medications": "الأدوية الحالية"
+  },
+  "documents": {
+    "title": "المستندات الطبية",
+    "view": "عرض المستند"
+  },
+  "contacts": {
+    "title": "جهات اتصال الطوارئ"
+  },
+  "doctor": {
+    "title": "طبيب الأسرة"
+  },
+  "important_info": {
+    "title": "معلومات مهمة"
+  },
+  "footer": {
+    "last_updated": "آخر تحديث"
+  },
+  "emergency_services": {
+    "fire": "الإطفاء",
+    "police": "الشرطة",
+    "ambulance": "الإسعاف"
+  }
+}

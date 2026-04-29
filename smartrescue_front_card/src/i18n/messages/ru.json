@@ -1,0 +1,58 @@
+{
+  "common": {
+    "no_data": "Нет данных",
+    "loading": "Загрузка..."
+  },
+  "language_dialog": {
+    "title": "Выберите язык",
+    "subtitle": "Пожалуйста, выберите предпочитаемый язык.",
+    "geo_failed": "Не удалось определить местоположение – выберите язык.",
+    "detecting": "Определение языка по местоположению..."
+  },
+  "languages": {
+    "de": "Deutsch",
+    "en": "English",
+    "pl": "Polski",
+    "sq": "Shqip",
+    "ar": "العربية",
+    "hr": "Hrvatski",
+    "tr": "Türkçe",
+    "ru": "Русский"
+  },
+  "person": {
+    "dob": "Дата рождения",
+    "years": "лет",
+    "blood_type": "Группа крови",
+    "weight": "Вес",
+    "height": "Рост",
+    "gender": "Пол",
+    "address": "Адрес проживания"
+  },
+  "medical": {
+    "title": "Медицинские данные",
+    "diseases": "Заболевания",
+    "allergies": "Аллергии",
+    "medications": "Текущие лекарства"
+  },
+  "documents": {
+    "title": "Медицинские документы",
+    "view": "Посмотреть документ"
+  },
+  "contacts": {
+    "title": "Контакты для экстренных случаев"
+  },
+  "doctor": {
+    "title": "Семейный врач"
+  },
+  "important_info": {
+    "title": "Важная информация"
+  },
+  "footer": {
+    "last_updated": "Последнее обновление"
+  },
+  "emergency_services": {
+    "fire": "Пожарная служба",
+    "police": "Полиция",
+    "ambulance": "Скорая помощь"
+  }
+}

@@ -74,6 +74,19 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       https: true,
       open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+          secure: false,
+        },
+        '/deepl': {
+          target: 'https://api-free.deepl.com',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/deepl/, ''),
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

@@ -8,65 +8,20 @@ import MedicalInfo from '../components/MedicalInfo.vue'
 import ContactInfo from '../components/ContactInfo.vue'
 import DoctorInfo from '../components/DoctorInfo.vue'
 import MedicalData from '../components/MedicalData.vue'
+import { emergencyNumbers } from '../data/testdata.js'
 import { useEmergencyStore } from '../stores/emergencyStore'
-import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useI18n } from '../i18n'
-import { detectLocaleFromGeo, detectLocaleFromBrowser } from '../utils/geoLanguage'
-import LanguageDialog from '../components/LanguageDialog.vue'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 const store = useEmergencyStore()
-const router = useRouter()
-const { t, setLocale } = useI18n()
-
-const showLanguageDialog = ref(false)
-const dialogSubtitleKey = ref('language_dialog.subtitle')
-const languageResolved = ref(false)
-const LOCALE_STORAGE_KEY = 'smartrescue.locale'
-
-const emergencyNumbers = computed(() => [
-  { service: t('emergency_services.fire'), number: 122 },
-  { service: t('emergency_services.police'), number: 133 },
-  { service: t('emergency_services.ambulance'), number: 144 },
-])
+const route = useRoute()
 
 onMounted(async () => {
-  if (!store.personData) {
-    router.replace('/scanner')
-    return
+  const previewId = route.params.id
+  if (previewId) {
+    await store.fetchEmergencyData(previewId)
   }
-  await resolveLanguage()
 })
-
-const resolveLanguage = async () => {
-  const stored = localStorage.getItem(LOCALE_STORAGE_KEY)
-  if (stored) {
-    languageResolved.value = true
-    return
-  }
-  try {
-    const detected = await detectLocaleFromGeo()
-    if (detected) {
-      setLocale(detected)
-      languageResolved.value = true
-      return
-    }
-  } catch {
-    // Geolocation verweigert oder Reverse-Geocoding fehlgeschlagen
-  }
-  const browser = detectLocaleFromBrowser()
-  if (browser) {
-    setLocale(browser)
-    languageResolved.value = true
-    return
-  }
-  dialogSubtitleKey.value = 'language_dialog.geo_failed'
-  showLanguageDialog.value = true
-}
-
-const onLanguageSelected = () => {
-  languageResolved.value = true
-}
 
 const person = computed(() => store.personData?.profile)
 const contacts = computed(() => store.personData?.contactNumbers || [])
@@ -145,12 +100,10 @@ const date = computed(() => {
             "
           >
             <q-card-section>
-              <div class="text-weight-medium" style="font-size: 18px; color: #1e293b">
-                {{ t('doctor.title') }}
-              </div>
+              <div class="text-weight-medium" style="font-size: 18px; color: #1e293b">Hausarzt</div>
             </q-card-section>
             <q-card-section class="q-pt-none">
-              <div class="text-italic" style="color: #94a3b8">{{ t('common.no_data') }}</div>
+              <div class="text-italic" style="color: #94a3b8">Keine Angaben</div>
             </q-card-section>
           </q-card>
         </div>
@@ -160,13 +113,19 @@ const date = computed(() => {
     <q-footer>
       <Footer :date="date"></Footer>
     </q-footer>
-
-    <LanguageDialog
-      v-model="showLanguageDialog"
-      :subtitle-key="dialogSubtitleKey"
-      @selected="onLanguageSelected"
-    />
   </q-layout>
+
+  <div v-else-if="store.isLoading" class="preview-status">
+    <q-spinner size="3rem" color="primary" />
+    <p class="q-mt-md">Vorschau wird geladen...</p>
+  </div>
+
+  <div v-else class="preview-status">
+    <q-icon name="error_outline" size="4rem" color="negative" />
+    <p class="text-negative q-mt-md text-center">
+      {{ store.error || 'Keine Vorschau verfügbar.' }}
+    </p>
+  </div>
 </template>
 
 <style scoped>
@@ -174,7 +133,6 @@ const date = computed(() => {
   width: 100%;
   background-color: white;
   border-radius: 0 0 15px 15px;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -184,7 +142,6 @@ const date = computed(() => {
   display: flex;
   justify-content: center;
 }
-
 .container-person-info,
 .container-medical-info,
 .container-contact-info,
@@ -192,5 +149,14 @@ const date = computed(() => {
 .container-medical-data {
   display: flex;
   justify-content: center;
+}
+.preview-status {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f8fafc;
 }
 </style>

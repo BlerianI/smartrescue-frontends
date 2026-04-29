@@ -4,11 +4,11 @@
       <div class="box">
         <div class="row items-center q-mb-sm">
           <q-icon name="warning" class="icon q-mr-xs" size="25px"></q-icon>
-          <span class="text-information">Wichtige Information</span>
+          <span class="text-information">{{ t('important_info.title') }}</span>
         </div>
 
         <div>
-          <span v-text="infos" class="information"></span>
+          <span class="information">{{ tr(infos) }}</span>
         </div>
       </div>
     </q-banner>
@@ -16,6 +16,10 @@
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   infos: String,
 })

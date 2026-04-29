@@ -165,67 +165,68 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useAuthStore } from 'src/stores/authStore'
-import { useUploadStore } from 'src/stores/uploadStore'
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useAuthStore } from "src/stores/authStore";
+import { useUploadStore } from "src/stores/uploadStore";
+import { useRouter } from "vue-router";
 
-const authStore = useAuthStore()
-const uploadStore = useUploadStore()
-const router = useRouter()
+const authStore = useAuthStore();
+const uploadStore = useUploadStore();
+const router = useRouter();
 
-const firstname = ref('')
-const lastname = ref('')
-const email = ref('')
-const password = ref('')
-const passwordProof = ref('')
-const isPwd = ref(true)
-const isPwd2 = ref(true)
+const firstname = ref("");
+const lastname = ref("");
+const email = ref("");
+const password = ref("");
+const passwordProof = ref("");
+const isPwd = ref(true);
+const isPwd2 = ref(true);
 
-const myForm = ref(null)
+const myForm = ref(null);
 
-const avatar = ref(null)
-const avatarFile = ref(null)
+const avatar = ref(null);
+const avatarFile = ref(null);
 
 const handleSubmit = async () => {
-  const success = myForm.value.validate()
+	const success = myForm.value.validate();
 
-  if (!success) {
-    return
-  }
+	if (!success) {
+		return;
+	}
 
-  try {
-    await authStore.signUp(firstname.value, lastname.value, email.value, password.value)
+	try {
+		await authStore.signUp(
+			firstname.value,
+			lastname.value,
+			email.value,
+			password.value,
+		);
 
-    if (avatarFile.value) {
-      const imageUrl = await uploadStore.uploadAvatar(avatarFile.value)
-      console.log('Hochgeladene Avatar URL:', imageUrl)
-    }
+		if (avatarFile.value) {
+			await uploadStore.uploadAvatar(avatarFile.value);
+		}
 
-    if (!authStore.user) {
-      throw new Error('Registrierung fehlgeschlagen')
-    }
+		if (!authStore.user) {
+			throw new Error("Registrierung fehlgeschlagen");
+		}
 
-    await router.push('/profile')
-  } catch (error) {
-    console.error('Signup Error:', error)
-  }
-}
-
+		await router.push("/profile");
+	} catch (error) {
+		console.error("Signup Error:", error);
+	}
+};
 
 const onFileChange = (event) => {
-  console.log(event);
+	const selectedFile = event.target.files[0];
+	if (!selectedFile) return;
 
-  const selectedFile = event.target.files[0];
-  if(!selectedFile) return;
+	if (!["image/png", "image/jpeg", "image/jpg"].includes(selectedFile.type)) {
+		alert("Nur PNG und JPG erlaubt!");
+		return;
+	}
 
-  if (!['image/png', 'image/jpeg', 'image/jpg'].includes(selectedFile.type)) {
-    alert('Nur PNG und JPG erlaubt!')
-    return
-  }
-
-  avatar.value = URL.createObjectURL(selectedFile)
-  avatarFile.value = selectedFile;
+	avatar.value = URL.createObjectURL(selectedFile);
+	avatarFile.value = selectedFile;
 };
 </script>
 

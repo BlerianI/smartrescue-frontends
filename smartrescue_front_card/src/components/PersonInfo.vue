@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <q-card class="container q-px-md q-py-md column" style="max-width: 400px">
     <q-card-section class="section-container">
@@ -13,7 +12,7 @@
         <div class="q-ml-lg column" style="line-height: 1.2">
           <div class="name">{{ person.name }}</div>
 
-          <div class="date">DOB: {{ person.birthdate }}</div>
+          <div class="date">{{ t('person.dob') }}: {{ person.birthdate }}</div>
 
           <div>
             <q-chip
@@ -24,7 +23,7 @@
                 font-weight: bold;
               "
             >
-              {{ person.age }} Jahre
+              {{ person.age }} {{ t('person.years') }}
             </q-chip>
           </div>
         </div>
@@ -35,14 +34,14 @@
       <div class="row q-col-gutter-md q-mb-md">
         <div class="col-6">
           <div class="info-box">
-            <div class="title">Blutgruppe</div>
+            <div class="title">{{ t('person.blood_type') }}</div>
             <div class="value">{{ person.blood }}</div>
           </div>
         </div>
 
         <div class="col-6">
           <div class="info-box">
-            <div class="title">Gewicht</div>
+            <div class="title">{{ t('person.weight') }}</div>
             <div class="value">{{ person.weight }} kg</div>
           </div>
         </div>
@@ -51,15 +50,15 @@
       <div class="row q-col-gutter-md">
         <div class="col-6">
           <div class="info-box">
-            <div class="title">Größe</div>
+            <div class="title">{{ t('person.height') }}</div>
             <div class="value">{{ person.height }} cm</div>
           </div>
         </div>
 
         <div class="col-6">
           <div class="info-box">
-            <div class="title">Geschlecht</div>
-            <div class="value">{{ person.gender }}</div>
+            <div class="title">{{ t('person.gender') }}</div>
+            <div class="value">{{ tr(person.gender) }}</div>
           </div>
         </div>
       </div>
@@ -68,7 +67,7 @@
         <div class="col-12">
           <div class="info-box row items-center no-wrap">
             <div class="col">
-              <div class="title">Wohnadresse</div>
+              <div class="title">{{ t('person.address') }}</div>
               <div class="value-special">{{ person.address }}</div>
             </div>
 
@@ -93,15 +92,16 @@
 </template>
 
 <script setup>
+import { useI18n } from '../i18n'
+import { useTranslator } from '../i18n/translator'
+const { t } = useI18n()
+const { tr } = useTranslator()
 defineProps({
   person: Object,
 })
 
-const openInMaps = (adress) => {
-  // encodeURIComponent kodiert Teile des strings den du ihn als parameter gibst
-  // hier wird dies benötigt, weil ich die adresse als query parameter übergebe
-  const adresse = encodeURIComponent(adress)
-  const url = `https://www.google.com/maps/search/?api=1&query=${adresse}`
+const openInMaps = (address) => {
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
   window.open(url, '_blank')
 }
 </script>
