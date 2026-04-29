@@ -1,0 +1,67 @@
+name: Build & Deploy Frontend Main
+
+on:
+  push:
+    branches: [ "deploy" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./smartrescue_front_main
+          push: true
+          tags: ghcr.io/${{ github.repository }}/smartrescue_front_main:latest
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy on Droplet via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          script: |
+            set -e
+
+            APP_DIR=/opt/smartrescue_front_main
+            IMAGE=ghcr.io/${{ github.repository }}/smartrescue_front_main:latest
+
+            mkdir -p $APP_DIR
+            cd $APP_DIR
+
+            # GHCR login (mit PAT, weil GITHUB_TOKEN auf VM nicht existiert)
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
+
+            docker pull $IMAGE
+
+            # Alten Container stoppen und entfernen
+            docker stop smartrescue_front_main || true
+            docker rm smartrescue_front_main || true
+
+            # Container starten auf Port 8080 (kannst du anpassen, wenn du einen anderen Port brauchst)
+            docker run -d \
+              --name smartrescue_front_main \
+              --restart unless-stopped \
+              -p 8080:80 \
+              $IMAGE
