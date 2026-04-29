@@ -33,10 +33,36 @@ export const useEmergencyStore = defineStore('emergencyStore', () => {
     }
   }
 
+  const location = ref(null)
+
+  const logLocation = async (uuid) => {
+    const coords = await new Promise((resolve) => {
+      if (!navigator.geolocation) return resolve(null)
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => resolve(null),
+        { timeout: 8000 },
+      )
+    })
+
+    const locationString = coords
+      ? `https://maps.google.com/?q=${coords.lat},${coords.lng}`
+      : 'unknown'
+
+    location.value = locationString
+
+    try {
+      await axios.post(`${API_URL}/emergency/${uuid}/log`, { location: locationString })
+    } catch (err) {
+      console.error('Failed to log access location:', err)
+    }
+  }
+
   const clearData = () => {
     personData.value = null
     error.value = null
+    location.value = null
   }
 
-  return { personData, isLoading, error, fetchEmergencyData, clearData }
+  return { personData, isLoading, error, location, fetchEmergencyData, logLocation, clearData }
 })
