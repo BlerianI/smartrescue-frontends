@@ -78,7 +78,7 @@ async function onDetect(detectedCodes) {
           timeout: 4000,
         })
       } else {
-        await store.logLocation(uuid)
+        store.logLocation(uuid)
         router.push('/med')
       }
     } else {
