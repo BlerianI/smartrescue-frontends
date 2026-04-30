@@ -1,13 +1,14 @@
 <template>
   <div class="q-pt-md" style="max-width: 450px">
     <div>
-      <h4 class="header">Willkommen zurück</h4>
+      <h1 class="header text-h4">Willkommen zurück</h1>
       <p class="subheading text-grey-7">Melde dich an und verwalte deine Profile</p>
     </div>
     <q-form @submit="handleSubmit" class="q-gutter-md">
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs input-header">E-Mail Adresse</div>
+        <label for="signin-email" class="text-body2 text-grey-7 q-mb-xs input-header block">E-Mail Adresse</label>
         <q-input
+          id="signin-email"
           outlined
           v-model="email"
           class="login-input"
@@ -21,15 +22,16 @@
           ]"
         >
           <template v-slot:prepend>
-            <q-icon name="mail" />
+            <q-icon name="mail" aria-hidden="true" />
           </template>
         </q-input>
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">Passwort</div>
+        <label for="signin-password" class="text-body2 text-grey-7 q-mb-xs input-header block" style="margin-top: -6px">Passwort</label>
 
         <q-input
+          id="signin-password"
           outlined
           v-model="password"
           class="login-input"
@@ -40,7 +42,7 @@
           ]"
         >
           <template v-slot:prepend>
-            <q-icon name="lock" />
+            <q-icon name="lock" aria-hidden="true" />
           </template>
 
           <template v-slot:append>
@@ -48,6 +50,8 @@
               :name="isPwd ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
               @click="isPwd = !isPwd"
+              :aria-label="isPwd ? 'Passwort anzeigen' : 'Passwort verbergen'"
+              role="button"
             />
           </template>
         </q-input>
@@ -58,9 +62,10 @@
         label="Anmelden"
         icon-right="eva-arrow-forward-outline"
         class="jwtLogin text-white shadow-2"
+        aria-label="Mit E-Mail und Passwort anmelden"
       />
 
-      <div class="row items-center q-gutter-sm seperator" style="width: 450px">
+      <div class="row items-center q-gutter-sm seperator" style="width: 450px" role="separator">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -71,6 +76,7 @@
         label="Mit Google anmelden"
         class="googleLogin"
         icon="eva-google"
+        aria-label="Über Google Konto anmelden"
       />
     </q-form>
   </div>

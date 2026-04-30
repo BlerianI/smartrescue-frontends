@@ -1,21 +1,21 @@
 <template>
-  <div class="confirm-container">
+  <div class="confirm-container" role="document" aria-label="Zusammenfassung der Profileingaben">
     <!-- Success Header -->
     <div class="confirm-header text-center q-mb-lg">
       <div class="check-icon-wrapper q-mb-md">
-        <q-icon name="check_circle" size="64px" color="primary" />
+        <q-icon name="check_circle" size="64px" color="primary" aria-hidden="true" />
       </div>
-      <div class="text-h5 text-weight-bold text-grey-9 font-display">Profil bereit!</div>
+      <div class="text-h5 text-weight-bold text-grey-9 font-display" role="heading" aria-level="2">Profil bereit!</div>
       <div class="text-body2 text-grey-6 q-mt-xs">
         Bitte überprüfe deine Angaben vor dem Speichern.
       </div>
     </div>
 
     <!-- Personal Data Card -->
-    <div class="summary-card q-mb-md">
+    <div class="summary-card q-mb-md" role="region" aria-labelledby="summary-personal-title">
       <div class="card-header row items-center q-mb-md">
-        <q-icon name="person" size="20px" class="text-primary q-mr-sm" />
-        <span class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Persönliche Daten</span>
+        <q-icon name="person" size="20px" class="text-primary q-mr-sm" aria-hidden="true" />
+        <span id="summary-personal-title" class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Persönliche Daten</span>
       </div>
       <div class="row q-col-gutter-sm">
         <div class="col-6">
@@ -54,10 +54,10 @@
     </div>
 
     <!-- Doctor Card -->
-    <div class="summary-card q-mb-md" v-if="data.doctor">
+    <div class="summary-card q-mb-md" v-if="data.doctor" role="region" aria-labelledby="summary-doctor-title">
       <div class="card-header row items-center q-mb-md">
-        <q-icon name="local_hospital" size="20px" class="text-primary q-mr-sm" />
-        <span class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Hausarzt</span>
+        <q-icon name="local_hospital" size="20px" class="text-primary q-mr-sm" aria-hidden="true" />
+        <span id="summary-doctor-title" class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Hausarzt</span>
       </div>
       <div class="row q-col-gutter-sm">
         <div class="col-6">
@@ -80,47 +80,49 @@
     </div>
 
     <!-- Emergency Contacts -->
-    <div class="summary-card q-mb-md" v-if="data.emergencyContacts && data.emergencyContacts.length > 0">
+    <div class="summary-card q-mb-md" v-if="data.emergencyContacts && data.emergencyContacts.length > 0" role="region" aria-labelledby="summary-emergency-title">
       <div class="card-header row items-center q-mb-md">
-        <q-icon name="emergency" size="20px" class="text-primary q-mr-sm" />
-        <span class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Notfallkontakte</span>
-        <q-badge class="q-ml-sm" color="primary" :label="data.emergencyContacts.length" />
+        <q-icon name="emergency" size="20px" class="text-primary q-mr-sm" aria-hidden="true" />
+        <span id="summary-emergency-title" class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Notfallkontakte</span>
+        <q-badge class="q-ml-sm" color="primary" :label="data.emergencyContacts.length" :aria-label="data.emergencyContacts.length + ' Kontakte hinterlegt'" />
       </div>
-      <div v-for="(contact, i) in data.emergencyContacts" :key="i" class="contact-row row items-center q-py-xs">
-        <div class="col-5">
-          <div class="data-value text-weight-medium">{{ contact.first_name }} {{ contact.last_name }}</div>
-        </div>
-        <div class="col-4">
-          <div class="data-value" style="font-size: 13px">{{ contact.phone_number || '–' }}</div>
-        </div>
-        <div class="col-3">
-          <div class="data-value" style="font-size: 13px; color: #999">{{ contact.relationship || '' }}</div>
+      <div role="list" aria-label="Notfallkontakte Liste">
+        <div v-for="(contact, i) in data.emergencyContacts" :key="i" class="contact-row row items-center q-py-xs" role="listitem">
+          <div class="col-5">
+            <div class="data-value text-weight-medium">{{ contact.first_name }} {{ contact.last_name }}</div>
+          </div>
+          <div class="col-4">
+            <div class="data-value" style="font-size: 13px">{{ contact.phone_number || '–' }}</div>
+          </div>
+          <div class="col-3">
+            <div class="data-value" style="font-size: 13px; color: #999">{{ contact.relationship || '' }}</div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Medical Summary -->
-    <div class="summary-card" v-if="data.medical">
+    <div class="summary-card" v-if="data.medical" role="region" aria-labelledby="summary-medical-title">
       <div class="card-header row items-center q-mb-md">
-        <q-icon name="monitor_heart" size="20px" class="text-primary q-mr-sm" />
-        <span class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Medizinisch</span>
+        <q-icon name="monitor_heart" size="20px" class="text-primary q-mr-sm" aria-hidden="true" />
+        <span id="summary-medical-title" class="text-weight-bold text-grey-9 font-display text-uppercase" style="font-size: 12px; letter-spacing: 0.05em">Medizinisch</span>
       </div>
       <div class="row q-col-gutter-sm">
         <div class="col-4">
-          <div class="stat-box">
-            <div class="stat-number text-primary">{{ data.medical.medications ? data.medical.medications.length : 0 }}</div>
+          <div class="stat-box" role="group" :aria-label="data.medical.medications ? data.medical.medications.length : 0 + ' Medikamente'">
+            <div class="stat-number text-primary" aria-hidden="true">{{ data.medical.medications ? data.medical.medications.length : 0 }}</div>
             <div class="stat-label">Medikamente</div>
           </div>
         </div>
         <div class="col-4">
-          <div class="stat-box">
-            <div class="stat-number text-primary">{{ data.medical.conditions ? data.medical.conditions.length : 0 }}</div>
+          <div class="stat-box" role="group" :aria-label="data.medical.conditions ? data.medical.conditions.length : 0 + ' Erkrankungen'">
+            <div class="stat-number text-primary" aria-hidden="true">{{ data.medical.conditions ? data.medical.conditions.length : 0 }}</div>
             <div class="stat-label">Erkrankungen</div>
           </div>
         </div>
         <div class="col-4">
-          <div class="stat-box">
-            <div class="stat-number text-primary">{{ data.medical.allergies ? data.medical.allergies.length : 0 }}</div>
+          <div class="stat-box" role="group" :aria-label="data.medical.allergies ? data.medical.allergies.length : 0 + ' Allergien'">
+            <div class="stat-number text-primary" aria-hidden="true">{{ data.medical.allergies ? data.medical.allergies.length : 0 }}</div>
             <div class="stat-label">Allergien</div>
           </div>
         </div>

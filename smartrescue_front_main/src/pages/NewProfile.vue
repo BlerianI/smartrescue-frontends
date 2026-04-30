@@ -4,7 +4,7 @@
       <q-card-section class="bg-gradient-primary q-pt-lg q-pb-md text-white rounded-borders">
       </q-card-section>
 
-      <q-card-section class="q-pt-none">
+      <q-card-section class="q-pt-none" role="region" aria-live="polite" :aria-label="'Schritt ' + step + ' von 4: ' + (step === 1 ? 'Persönliche Daten' : step === 2 ? 'Körperdaten' : step === 3 ? 'Medizinische Daten' : 'Bestätigung')">
         <q-stepper
           v-model="step"
           ref="stepper"
@@ -14,6 +14,7 @@
           flat
           contracted
           class="compact-stepper"
+          aria-hidden="true" 
         >
           <q-step
             :name="1"
@@ -74,7 +75,6 @@
         />
 
         <!-- Step 3: Medizinische Daten -->
-        <!-- Step 3: Medizinische Daten -->
         <StepMedical v-if="step === 3" v-model:medical="formData.medical" ref="stepMedicalRef" />
 
         <!-- Step 4: Bestätigung -->
@@ -88,6 +88,7 @@
           flat
           class="col action-btn text-weight-medium bg-grey-2 text-dark hover-red"
           @click="previousStep"
+          aria-label="Zum vorherigen Schritt zurückkehren"
         />
         <q-btn
           v-else
@@ -95,6 +96,7 @@
           flat
           class="col action-btn text-weight-medium bg-grey-2 text-dark hover-red"
           @click="onClose"
+          aria-label="Erstellung abbrechen und Fenster schließen"
         />
         <q-btn
           v-if="step < 4"
@@ -103,6 +105,7 @@
           class="col action-btn text-weight-bold"
           color="primary"
           @click="nextStep"
+          aria-label="Zum nächsten Schritt gehen"
         />
         <q-btn
           v-else
@@ -111,6 +114,7 @@
           class="col action-btn text-weight-bold"
           color="primary"
           @click="saveProfile"
+          aria-label="Notfall-Profil endgültig speichern"
         />
       </q-card-actions>
     </q-card>

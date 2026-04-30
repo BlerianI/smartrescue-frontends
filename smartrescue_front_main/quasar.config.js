@@ -144,7 +144,46 @@ export default defineConfig((/* ctx */) => {
       useCredentialsForManifestTag: true,
       // injectPwaMetaTags: false,
       // extendPWACustomSWConf (esbuildConf) {},
-      // extendGenerateSWOptions (cfg) {},
+      extendGenerateSWOptions (cfg) {
+        cfg.runtimeCaching = [
+          {
+            // Bilder, Icons und Logos cachen
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|ico)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Tage
+              }
+            }
+          },
+          {
+            // Videos cachen
+            urlPattern: /\.(?:mp4|webm|ogg)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'videos-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 24 * 60 * 60 // 60 Tage
+              }
+            }
+          },
+          {
+            // Fonts cachen
+            urlPattern: /\.(?:woff|woff2|eot|ttf|otf)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 365 * 24 * 60 * 60 // 1 Jahr
+              }
+            }
+          }
+        ]
+      },
       // extendInjectManifestOptions (cfg) {}
     },
 

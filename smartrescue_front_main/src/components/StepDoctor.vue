@@ -1,12 +1,13 @@
 <template>
-  <div class="justify-center text-center text-h6 q-mb-md" style="color: #5a6c7d; font-weight: 500">
+  <div class="justify-center text-center text-h6 q-mb-md" style="color: #5a6c7d; font-weight: 500" id="doctor-section-label">
     Hausarzt
   </div>
-  <q-form ref="formRef">
+  <q-form ref="formRef" aria-labelledby="doctor-section-label">
     <div class="row q-col-gutter-md">
       <div class="col-6">
-        <label class="field-label">VORNAME</label>
+        <label for="doctor-firstname" class="field-label">VORNAME</label>
         <q-input
+          id="doctor-firstname"
           outlined
           v-model="doctorForm.first_name"
           class="inputs"
@@ -24,8 +25,9 @@
         </q-input>
       </div>
       <div class="col-6">
-        <label class="field-label">NACHNAME</label>
+        <label for="doctor-lastname" class="field-label">NACHNAME</label>
         <q-input
+          id="doctor-lastname"
           outlined
           v-model="doctorForm.last_name"
           class="inputs"
@@ -44,8 +46,9 @@
       </div>
 
       <div class="col-6">
-        <label class="field-label">STRASSE</label>
+        <label for="doctor-street" class="field-label">STRASSE</label>
         <q-input
+          id="doctor-street"
           outlined
           v-model="doctorForm.street"
           class="inputs"
@@ -60,8 +63,9 @@
         </q-input>
       </div>
       <div class="col-6">
-        <label class="field-label">HAUSNUMMER</label>
+        <label for="doctor-housenumber" class="field-label">HAUSNUMMER</label>
         <q-input
+          id="doctor-housenumber"
           outlined
           v-model="doctorForm.housenumber"
           class="inputs"
@@ -77,8 +81,9 @@
       </div>
 
       <div class="col-6">
-        <label class="field-label">POSTLEITZAHL</label>
+        <label for="doctor-postalcode" class="field-label">POSTLEITZAHL</label>
         <q-input
+          id="doctor-postalcode"
           outlined
           v-model="doctorForm.postalcode"
           class="inputs"
@@ -93,8 +98,9 @@
         </q-input>
       </div>
       <div class="col-6">
-        <label class="field-label">STADT</label>
+        <label for="doctor-city" class="field-label">STADT</label>
         <q-input
+          id="doctor-city"
           outlined
           v-model="doctorForm.city"
           class="inputs"
@@ -114,8 +120,9 @@
 
       <!-- PHONE NUMBER -->
       <div class="col-6">
-        <label class="field-label">TELEFONNUMMER</label>
+        <label for="doctor-phone" class="field-label">TELEFONNUMMER</label>
         <q-input
+          id="doctor-phone"
           outlined
           v-model="doctorForm.phone_number"
           class="inputs"
@@ -132,8 +139,9 @@
 
       <!-- DOCTOR TITLE -->
       <div class="col-6">
-        <label class="field-label">TITEL</label>
+        <label for="doctor-title" class="field-label">TITEL</label>
         <q-select
+          id="doctor-title"
           outlined
           v-model="doctorForm.title"
           class="inputs"
@@ -157,8 +165,9 @@
 
       <!-- SPECIALTY FULL WIDTH -->
       <div class="col-12">
-        <label class="field-label">FACHRICHTUNG</label>
+        <label for="doctor-specialty" class="field-label">FACHRICHTUNG</label>
         <q-select
+          id="doctor-specialty"
           outlined
           v-model="doctorForm.specialty"
           class="inputs"
@@ -182,8 +191,9 @@
     </div>
     <!-- Notfallkontakte -->
     <div
-      class="justify-center text-center text-h6 q-mb-md"
+      class="justify-center text-center text-h6 q-mb-md q-mt-lg"
       style="color: #5a6c7d; font-weight: 500"
+      id="emergency-contacts-label"
     >
       Notfallkontakte
     </div>
@@ -196,91 +206,99 @@
         icon="add"
         label="Kontakt hinzufügen"
         @click="addEmergencyContact"
+        aria-label="Einen neuen Notfallkontakt zur Liste hinzufügen"
       />
     </div>
 
     <!-- Notfallkontakte Karten -->
-    <div v-for="(contact, index) in contacts" :key="index" class="q-mt-md">
-      <q-card flat bordered class="contact-card">
-        <q-card-section class="row items-center justify-between">
-          <div class="text-subtitle2" style="color: #5a6c7d; font-weight: 600">
-            Notfallkontakt {{ index + 1 }}
-          </div>
-          <q-btn
-            dense
-            flat
-            round
-            icon="delete"
-            color="negative"
-            @click="removeEmergencyContact(index)"
-          />
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section>
-          <div class="row q-col-gutter-md">
-            <div class="col-6">
-              <label class="field-label">VORNAME</label>
-              <q-input outlined v-model="contact.first_name" class="inputs" placeholder="Vorname" />
+    <div role="region" aria-live="polite" aria-label="Liste der Notfallkontakte">
+      <div v-for="(contact, index) in contacts" :key="index" class="q-mt-md">
+        <q-card flat bordered class="contact-card">
+          <q-card-section class="row items-center justify-between">
+            <div class="text-subtitle2" style="color: #5a6c7d; font-weight: 600">
+              Notfallkontakt {{ index + 1 }}
             </div>
+            <q-btn
+              dense
+              flat
+              round
+              icon="delete"
+              color="negative"
+              @click="removeEmergencyContact(index)"
+              :aria-label="'Notfallkontakt ' + (index + 1) + ' entfernen'"
+            />
+          </q-card-section>
 
-            <div class="col-6">
-              <label class="field-label">NACHNAME</label>
-              <q-input outlined v-model="contact.last_name" class="inputs" placeholder="Nachname" />
-            </div>
+          <q-separator aria-hidden="true" />
 
-            <div class="col-6">
-              <label class="field-label">TELEFONNUMMER</label>
-              <q-input
-                outlined
-                v-model="contact.phone_number"
-                class="inputs"
-                placeholder="+43 660 1234567"
-              />
-            </div>
+          <q-card-section>
+            <div class="row q-col-gutter-md">
+              <div class="col-6">
+                <label :for="'contact-firstname-' + index" class="field-label">VORNAME</label>
+                <q-input :id="'contact-firstname-' + index" outlined v-model="contact.first_name" class="inputs" placeholder="Vorname" />
+              </div>
 
-            <div class="col-6">
-              <label class="field-label">BEZIEHUNG</label>
-              <q-input
-                outlined
-                v-model="contact.relationship"
-                class="inputs"
-                placeholder="z. B. Mutter"
-              />
-            </div>
+              <div class="col-6">
+                <label :for="'contact-lastname-' + index" class="field-label">NACHNAME</label>
+                <q-input :id="'contact-lastname-' + index" outlined v-model="contact.last_name" class="inputs" placeholder="Nachname" />
+              </div>
 
-            <div class="col-12">
-              <label class="field-label">PRIORITÄT</label>
-              <q-select
-                outlined
-                v-model="contact.priority"
-                :options="[
-                  { label: 'Hoch', value: 1 },
-                  { label: 'Mittel', value: 2 },
-                  { label: 'Niedrig', value: 3 },
-                ]"
-                emit-value
-                map-options
-                class="inputs"
-                placeholder="Priorität wählen"
-              />
-            </div>
+              <div class="col-6">
+                <label :for="'contact-phone-' + index" class="field-label">TELEFONNUMMER</label>
+                <q-input
+                  :id="'contact-phone-' + index"
+                  outlined
+                  v-model="contact.phone_number"
+                  class="inputs"
+                  placeholder="+43 660 1234567"
+                />
+              </div>
 
-            <div class="col-12">
-              <label class="field-label">NOTIZ</label>
-              <q-input
-                outlined
-                type="textarea"
-                v-model="contact.note"
-                class="inputs"
-                placeholder="Zusätzliche Informationen"
-                autogrow
-              />
+              <div class="col-6">
+                <label :for="'contact-rel-' + index" class="field-label">BEZIEHUNG</label>
+                <q-input
+                  :id="'contact-rel-' + index"
+                  outlined
+                  v-model="contact.relationship"
+                  class="inputs"
+                  placeholder="z. B. Mutter"
+                />
+              </div>
+
+              <div class="col-12">
+                <label :for="'contact-priority-' + index" class="field-label">PRIORITÄT</label>
+                <q-select
+                  :id="'contact-priority-' + index"
+                  outlined
+                  v-model="contact.priority"
+                  :options="[
+                    { label: 'Hoch', value: 1 },
+                    { label: 'Mittel', value: 2 },
+                    { label: 'Niedrig', value: 3 },
+                  ]"
+                  emit-value
+                  map-options
+                  class="inputs"
+                  placeholder="Priorität wählen"
+                />
+              </div>
+
+              <div class="col-12">
+                <label :for="'contact-note-' + index" class="field-label">NOTIZ</label>
+                <q-input
+                  :id="'contact-note-' + index"
+                  outlined
+                  type="textarea"
+                  v-model="contact.note"
+                  class="inputs"
+                  placeholder="Zusätzliche Informationen"
+                  autogrow
+                />
+              </div>
             </div>
-          </div>
-        </q-card-section>
-      </q-card>
+          </q-card-section>
+        </q-card>
+      </div>
     </div>
   </q-form>
 </template>

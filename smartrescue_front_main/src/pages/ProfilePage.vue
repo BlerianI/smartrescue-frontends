@@ -7,43 +7,47 @@
         side="left"
         :width="280"
         class="sidebar-drawer"
+        role="navigation"
+        aria-label="Hauptnavigation"
       >
         <div
           class="q-pa-lg flex flex-center bg-white full-width rounded-borders cursor-pointer transition-fast hover-scale"
           @click="onLogoClick"
+          role="link"
+          aria-label="Zurück zur Startseite"
         >
           <img
             src="/Logo1000x350.png"
-            alt="Logo"
+            alt="Smart Rescue Logo"
             style="max-width: 90%; height: auto; object-fit: contain"
           />
         </div>
-        <q-separator class="separator-line" />
+        <q-separator class="separator-line" aria-hidden="true" />
 
         <div class="q-px-md q-mt-md">
-          <div class="text-caption text-grey-5 text-weight-bold text-uppercase q-mb-sm q-ml-sm font-display">Navigation</div>
+          <h2 class="text-caption text-grey-5 text-weight-bold text-uppercase q-mb-sm q-ml-sm font-display">Navigation</h2>
           <q-list class="q-gutter-y-sm">
-            <q-item clickable class="nav-item active-nav-item rounded-borders-md transition-fast">
+            <q-item clickable class="nav-item active-nav-item rounded-borders-md transition-fast" aria-current="page">
               <q-item-section avatar>
-                <q-icon name="group" class="text-primary" size="24px" />
+                <q-icon name="group" class="text-primary" size="24px" aria-hidden="true" />
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-weight-bold text-primary font-display">Meine Profile</q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item clickable class="nav-item rounded-borders-md transition-fast">
+            <q-item clickable class="nav-item rounded-borders-md transition-fast" aria-label="Zu den Einstellungen">
               <q-item-section avatar>
-                <q-icon name="settings" class="text-grey-6" size="24px" />
+                <q-icon name="settings" class="text-grey-6" size="24px" aria-hidden="true" />
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-weight-medium text-grey-8 font-display">Einstellungen</q-item-label>
               </q-item-section>
             </q-item>
 
-            <q-item clickable class="nav-item rounded-borders-md transition-fast">
+            <q-item clickable class="nav-item rounded-borders-md transition-fast" aria-label="Hilfe und Support aufrufen">
               <q-item-section avatar>
-                <q-icon name="help_outline" class="text-grey-6" size="24px" />
+                <q-icon name="help_outline" class="text-grey-6" size="24px" aria-hidden="true" />
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-weight-medium text-grey-8 font-display">Hilfe & Support</q-item-label>
@@ -52,12 +56,12 @@
           </q-list>
         </div>
 
-        <div class="absolute-bottom full-width">
-          <q-separator class="separator-line" />
+        <div class="absolute-bottom full-width" role="contentinfo" aria-label="Benutzerprofil">
+          <q-separator class="separator-line" aria-hidden="true" />
           <div class="profile-section q-pa-md">
             <div class="row items-center no-wrap">
               <q-avatar size="48px">
-                <img :src="store.user.avatar_url" />
+                <img :src="store.user.avatar_url" alt="Dein Profilbild" />
               </q-avatar>
               <div class="column q-ml-sm">
                 <div class="text-weight-bold profile-name">
@@ -73,15 +77,15 @@
       </q-drawer>
 
       <q-page-container>
-        <q-page>
+        <q-page role="main">
           <div class="q-pa-xl bg-grey-1" style="min-height: 100vh">
-            <div
+            <header
               class="q-mb-xl q-pa-xl rounded-borders-xl bg-gradient-primary row items-center justify-between"
             >
               <div>
-                <h4 class="text-h3 q-ma-none text-weight-bold text-white font-display">
+                <h1 class="text-h3 q-ma-none text-weight-bold text-white font-display">
                   Meine Notfall-Profile
-                </h4>
+                </h1>
                 <p class="text-h6 text-white-80 q-mt-md q-mb-none font-display">
                   Alle deine Notfallarmband-Profile an einem Ort – verwalten, anpassen und als PDF sichern.
                 </p>
@@ -94,23 +98,26 @@
                 label="+ NEUES PROFIL"
                 class="neues-profil-btn text-weight-bold"
                 @click="onNeuesProfil"
+                aria-label="Ein neues Notfall-Profil erstellen"
               />
-            </div>
-            <q-card flat class="content-container rounded-borders-lg">
-              <div class="table-header row items-center q-px-lg q-py-md">
-                <div class="col-5 text-weight-bold text-grey-9 text-uppercase text-caption font-display">Namen</div>
-                <div class="col-3 text-weight-bold text-grey-9 text-center text-uppercase text-caption font-display">Scans</div>
-                <div class="col-4 text-weight-bold text-grey-9 text-center text-uppercase text-caption font-display">Aktionen</div>
+            </header>
+            <q-card flat class="content-container rounded-borders-lg" aria-label="Liste deiner Profile">
+              <div class="table-header row items-center q-px-lg q-py-md" role="row">
+                <div class="col-5 text-weight-bold text-grey-9 text-uppercase text-caption font-display" role="columnheader">Namen</div>
+                <div class="col-3 text-weight-bold text-grey-9 text-center text-uppercase text-caption font-display" role="columnheader">Scans</div>
+                <div class="col-4 text-weight-bold text-grey-9 text-center text-uppercase text-caption font-display" role="columnheader">Aktionen</div>
               </div>
 
-              <q-separator />
+              <q-separator aria-hidden="true" />
 
-              <ProfileItem
-                v-for="profile in userStore.profiles"
-                :key="profile.profile_id"
-                :profile="profile"
-                @edit="onEditProfile"
-              />
+              <div role="rowgroup">
+                <ProfileItem
+                  v-for="profile in userStore.profiles"
+                  :key="profile.profile_id"
+                  :profile="profile"
+                  @edit="onEditProfile"
+                />
+              </div>
             </q-card>
           </div>
         </q-page>

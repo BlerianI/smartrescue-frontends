@@ -1,35 +1,37 @@
 <template>
   <div class="q-pa-md" style="max-width: 500px">
     <div>
-      <h4 class="header">Erstelle dein Konto</h4>
+      <h1 class="header text-h4">Erstelle dein Konto</h1>
       <p class="subheading text-grey-7">Kostenlos registrieren und Leben retten</p>
     </div>
 
     <div class="flex justify-center q-mb-xl">
       <div class="avatar-container">
         <q-avatar
-          src="@/assets/Profil.png"
           :size="$q.screen.xs ? '80px' : '120px'"
           class="cursor-pointer"
           @click="$refs.fileInput.click()"
           style="border: 2px solid #e5e7eb"
+          role="button"
+          aria-label="Profilbild hochladen"
         >
-          <img v-if="avatar" :src="avatar">
-          <q-icon v-if="!avatar" name="upload" :size="$q.screen.xs ? '40px' : '60px'" class="text-grey-7"/>
+          <img v-if="avatar" :src="avatar" alt="Vorschau deines Profilbildes">
+          <q-icon v-if="!avatar" name="upload" :size="$q.screen.xs ? '40px' : '60px'" class="text-grey-7" aria-hidden="true"/>
         </q-avatar>
 
         <div class="text-body2 text-grey-7 q-mb-xs input-header q-mt-sm">
           Profilbild hochladen
         </div>
       </div>
-      <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" />
+      <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" aria-hidden="true" />
     </div>
 
     <q-form @submit.prevent="handleSubmit" ref="myForm" class="q-gutter-md">
       <div class="row name-row" style="max-width: 450px">
         <div class="col-12 col-md-6">
-          <div class="text-body2 text-grey-7 q-mb-xs input-header">Vorname</div>
+          <label for="signup-firstname" class="text-body2 text-grey-7 q-mb-xs input-header block">Vorname</label>
           <q-input
+            id="signup-firstname"
             outlined
             v-model="firstname"
             class="split"
@@ -38,14 +40,15 @@
             :rules="[(val) => (val && val.length > 0) || 'Bitte Vornamen eingeben']"
           >
             <template v-slot:prepend>
-              <q-icon name="person" />
+              <q-icon name="person" aria-hidden="true" />
             </template>
           </q-input>
         </div>
 
         <div class="col-12 col-md-6">
-          <div class="text-body2 text-grey-7 q-mb-xs input-header">Nachname</div>
+          <label for="signup-lastname" class="text-body2 text-grey-7 q-mb-xs input-header block">Nachname</label>
           <q-input
+            id="signup-lastname"
             outlined
             v-model="lastname"
             class=""
@@ -54,17 +57,18 @@
             :rules="[(val) => (val && val.length > 0) || 'Bitte Nachnamen eingeben']"
           >
             <template v-slot:prepend>
-              <q-icon name="person" />
+              <q-icon name="person" aria-hidden="true" />
             </template>
           </q-input>
         </div>
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
+        <label for="signup-email" class="text-body2 text-grey-7 q-mb-xs input-header block" style="margin-top: -6px">
           E-Mail Adresse
-        </div>
+        </label>
         <q-input
+          id="signup-email"
           outlined
           v-model="email"
           class="login-input"
@@ -78,16 +82,17 @@
           ]"
         >
           <template v-slot:prepend>
-            <q-icon name="mail" />
+            <q-icon name="mail" aria-hidden="true" />
           </template>
         </q-input>
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
+        <label for="signup-password" class="text-body2 text-grey-7 q-mb-xs input-header block" style="margin-top: -6px">
           Passwort
-        </div>
+        </label>
         <q-input
+          id="signup-password"
           outlined
           v-model="password"
           class="login-input"
@@ -99,7 +104,7 @@
           ]"
         >
           <template v-slot:prepend>
-            <q-icon name="lock" />
+            <q-icon name="lock" aria-hidden="true" />
           </template>
 
           <template v-slot:append>
@@ -107,16 +112,19 @@
               :name="isPwd ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
               @click="isPwd = !isPwd"
+              :aria-label="isPwd ? 'Passwort anzeigen' : 'Passwort verbergen'"
+              role="button"
             />
           </template>
         </q-input>
       </div>
 
       <div>
-        <div class="text-body2 text-grey-7 q-mb-xs input-header" style="margin-top: -6px">
+        <label for="signup-password-confirm" class="text-body2 text-grey-7 q-mb-xs input-header block" style="margin-top: -6px">
           Passwort bestätigen
-        </div>
+        </label>
         <q-input
+          id="signup-password-confirm"
           outlined
           v-model="passwordProof"
           class="login-input"
@@ -128,7 +136,7 @@
           ]"
         >
           <template v-slot:prepend>
-            <q-icon name="lock" />
+            <q-icon name="lock" aria-hidden="true" />
           </template>
 
           <template v-slot:append>
@@ -136,6 +144,8 @@
               :name="isPwd2 ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
               @click="isPwd2 = !isPwd2"
+              :aria-label="isPwd2 ? 'Passwort anzeigen' : 'Passwort verbergen'"
+              role="button"
             />
           </template>
         </q-input>
@@ -146,9 +156,10 @@
         label="Kostenlos registrieren"
         icon-right="eva-arrow-forward-outline"
         class="jwtLogin text-white shadow-2"
+        aria-label="Konto erstellen und registrieren"
       />
 
-      <div class="row items-center q-gutter-sm seperator" style="width: 450px">
+      <div class="row items-center q-gutter-sm seperator" style="width: 450px" role="separator">
         <q-separator class="col-grow" />
         <div class="text-grey text-caption">ODER</div>
         <q-separator class="col-grow" />
@@ -159,6 +170,7 @@
         label="Mit Google anmelden"
         class="googleLogin"
         icon="eva-google"
+        aria-label="Über Google Konto registrieren"
       />
     </q-form>
   </div>

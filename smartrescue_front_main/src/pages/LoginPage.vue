@@ -6,15 +6,20 @@
         <div class="col-12 col-lg-6 col-sm-12 bg-white column items-center justify-center">
           <div
             class="relative-position row items-center shadow-1 toggle"
+            role="tablist"
+            aria-label="Anmeldemodus auswählen"
           >
             <!-- Slider -->
-            <div class="slider" :class="mode === 'signup' ? 'slider-left' : 'slider-right'"></div>
+            <div class="slider" :class="mode === 'signup' ? 'slider-left' : 'slider-right'" aria-hidden="true"></div>
 
             <div
               class="col text-center text-weight-medium cursor-pointer"
               :class="mode === 'signup' ? 'text-white' : 'text-grey-7'"
               @click="mode = 'signup'"
               style="z-index: 2"
+              role="tab"
+              :aria-selected="mode === 'signup'"
+              aria-label="Registrierung anzeigen"
             >
               Sign Up
             </div>
@@ -24,14 +29,18 @@
               :class="mode === 'signin' ? 'text-white' : 'text-grey-7'"
               @click="mode = 'signin'"
               style="z-index: 2"
+              role="tab"
+              :aria-selected="mode === 'signin'"
+              aria-label="Anmeldung anzeigen"
             >
               Sign In
             </div>
           </div>
 
-          <SignIn v-if="mode == 'signin'"></SignIn>
-
-          <SignUp v-if="mode == 'signup'"></SignUp>
+          <div role="tabpanel" :aria-label="mode === 'signin' ? 'Anmeldeformular' : 'Registrierungsformular'">
+            <SignIn v-if="mode == 'signin'"></SignIn>
+            <SignUp v-if="mode == 'signup'"></SignUp>
+          </div>
 
           <div class="text-body2 text-grey-7 q-mt-lg text-center info">
             <q-icon name="lock" />

@@ -15,26 +15,30 @@
             class="cursor-pointer"
             @click="$refs.fileInput.click()"
             style="border: 2px solid #e5e7eb"
+            role="button"
+            aria-label="Profilbild für das neue Profil hochladen"
           >
-            <img v-if="personal.avatar_url" :src="personal.avatar_url" />
+            <img v-if="personal.avatar_url" :src="personal.avatar_url" alt="Vorschau des Profilbildes" />
             <q-icon
               v-else
               name="upload"
               :size="$q.screen.xs ? '40px' : '60px'"
               class="text-grey-7"
+              aria-hidden="true"
             />
           </q-avatar>
           <div class="text-body2 text-grey-7 q-mb-xs input-header q-mt-sm">
             Profilbild hochladen
           </div>
         </div>
-        <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" />
+        <input ref="fileInput" type="file" hidden accept="image/*" @change="onFileChange" aria-hidden="true" />
       </div>
 
       <div class="row q-col-gutter-md">
         <div class="col-6">
-          <label class="field-label">VORNAME</label>
+          <label for="personal-firstname" class="field-label">VORNAME</label>
           <q-input
+            id="personal-firstname"
             outlined
             v-model="personal.first_name"
             class="inputs"
@@ -51,8 +55,9 @@
           />
         </div>
         <div class="col-6">
-          <label class="field-label">NACHNAME</label>
+          <label for="personal-lastname" class="field-label">NACHNAME</label>
           <q-input
+            id="personal-lastname"
             outlined
             v-model="personal.last_name"
             class="inputs"
@@ -72,8 +77,9 @@
 
       <div class="row q-col-gutter-md">
         <div class="col-6">
-          <label class="field-label">GEBURTSDATUM</label>
+          <label for="personal-birthdate" class="field-label">GEBURTSDATUM</label>
           <q-input
+            id="personal-birthdate"
             outlined
             v-model="personal.birthdate"
             class="inputs"
@@ -86,7 +92,7 @@
             ]"
           >
             <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer">
+              <q-icon name="event" class="cursor-pointer" aria-label="Kalender öffnen" role="button">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                   <q-date v-model="personal.birthdate" mask="DD.MM.YYYY" default-view="Years">
                     <div class="row items-center justify-end">
@@ -99,41 +105,57 @@
           </q-input>
         </div>
         <div class="col-6">
-          <label class="field-label">GENDER</label>
-          <div class="gender-selector">
+          <span class="field-label" id="gender-label">GESCHLECHT</span>
+          <div class="gender-selector" role="radiogroup" aria-labelledby="gender-label">
             <div
               class="gender-option"
               :class="{ active: personal.gender === 'Männlich' }"
               @click="personal.gender = 'Männlich'"
+              role="radio"
+              :aria-checked="personal.gender === 'Männlich'"
+              tabindex="0"
+              @keydown.space.prevent="personal.gender = 'Männlich'"
+              aria-label="Männlich"
             >
-              <q-icon name="male" size="24px" />
+              <q-icon name="male" size="24px" aria-hidden="true" />
               <span>Männlich</span>
             </div>
             <div
               class="gender-option"
               :class="{ active: personal.gender === 'Weiblich' }"
               @click="personal.gender = 'Weiblich'"
+              role="radio"
+              :aria-checked="personal.gender === 'Weiblich'"
+              tabindex="0"
+              @keydown.space.prevent="personal.gender = 'Weiblich'"
+              aria-label="Weiblich"
             >
-              <q-icon name="female" size="24px" />
+              <q-icon name="female" size="24px" aria-hidden="true" />
               <span>Weiblich</span>
             </div>
             <div
               class="gender-option"
               :class="{ active: personal.gender === 'Divers' }"
               @click="personal.gender = 'Divers'"
+              role="radio"
+              :aria-checked="personal.gender === 'Divers'"
+              tabindex="0"
+              @keydown.space.prevent="personal.gender = 'Divers'"
+              aria-label="Divers"
             >
-              <q-icon name="transgender" size="24px" />
+              <q-icon name="transgender" size="24px" aria-hidden="true" />
               <span>Divers</span>
             </div>
-            <div class="gender-slider" :style="getSliderPosition()"></div>
+            <div class="gender-slider" :style="getSliderPosition()" aria-hidden="true"></div>
           </div>
         </div>
       </div>
 
       <div class="row q-col-gutter-md">
         <div class="col-6">
-          <label class="field-label">STRASSE</label>
+          <label for="personal-street" class="field-label">STRASSE</label>
           <q-input
+            id="personal-street"
             outlined
             v-model="personal.street"
             class="inputs"
@@ -147,8 +169,9 @@
           />
         </div>
         <div class="col-6">
-          <label class="field-label">HAUSNUMMER</label>
+          <label for="personal-housenumber" class="field-label">HAUSNUMMER</label>
           <q-input
+            id="personal-housenumber"
             outlined
             v-model="personal.housenumber"
             class="inputs"
@@ -165,8 +188,9 @@
 
       <div class="row q-col-gutter-md">
         <div class="col-6">
-          <label class="field-label">POSTLEITZAHL</label>
+          <label for="personal-postalcode" class="field-label">POSTLEITZAHL</label>
           <q-input
+            id="personal-postalcode"
             outlined
             v-model="personal.postalcode"
             class="inputs"
@@ -180,8 +204,9 @@
           />
         </div>
         <div class="col-6">
-          <label class="field-label">STADT</label>
+          <label for="personal-city" class="field-label">STADT</label>
           <q-input
+            id="personal-city"
             outlined
             v-model="personal.city"
             class="inputs"
@@ -201,8 +226,9 @@
 
       <div class="row q-col-gutter-md">
         <div class="col-6">
-          <label class="field-label">GEWICHT (kg)</label>
+          <label for="personal-weight" class="field-label">GEWICHT (kg)</label>
           <q-input
+            id="personal-weight"
             outlined
             v-model="personal.weight"
             class="inputs"
@@ -218,8 +244,9 @@
           />
         </div>
         <div class="col-6">
-          <label class="field-label">HÖHE (cm)</label>
+          <label for="personal-height" class="field-label">HÖHE (cm)</label>
           <q-input
+            id="personal-height"
             outlined
             v-model="personal.height"
             class="inputs"
@@ -238,8 +265,8 @@
 
       <div class="row q-col-gutter-md">
         <div class="col-12">
-          <label class="field-label">BLUTGRUPPE</label>
-          <div class="bloodtype-grid">
+          <span class="field-label" id="bloodtype-label">BLUTGRUPPE</span>
+          <div class="bloodtype-grid" role="radiogroup" aria-labelledby="bloodtype-label">
             <div
               v-for="type in bloodTypes"
               :key="type"
@@ -249,6 +276,11 @@
                 'full-width': type === 'Nicht bekannt',
               }"
               @click="personal.bloodtype = type"
+              role="radio"
+              :aria-checked="personal.bloodtype === type"
+              tabindex="0"
+              @keydown.space.prevent="personal.bloodtype = type"
+              :aria-label="type"
             >
               <span class="bloodtype-text">{{ type }}</span>
             </div>

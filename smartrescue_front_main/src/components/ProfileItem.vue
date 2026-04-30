@@ -1,20 +1,30 @@
 <template>
   <div>
-    <div class="profile-row row items-center q-px-lg q-py-md">
-      <div class="col-5 row items-center">
+    <div class="profile-row row items-center q-px-lg q-py-md" role="row">
+      <div class="col-5 row items-center" role="cell">
         <q-avatar size="56px">
-          <img :src="profile.avatar_url" v-if="profile.avatar_url" />
-          <q-icon v-else name="person" color="white" size="32px" />
+          <img :src="profile.avatar_url" v-if="profile.avatar_url" :alt="'Profilbild von ' + profile.first_name + ' ' + profile.last_name" />
+          <q-icon v-else name="person" color="white" size="32px" aria-hidden="true" />
         </q-avatar>
         <span class="q-ml-md text-body1 text-grey-8 text-weight-medium">
           {{ profile.first_name }} {{ profile.last_name }}
         </span>
       </div>
-      <div class="col-3 text-center">
-        <q-badge outline label="0 Scans" color="primary" class="scans-badge text-weight-bold" />
+      <div class="col-3 text-center" role="cell">
+        <q-badge outline :label="'0 Scans'" color="primary" class="scans-badge text-weight-bold" :aria-label="'Bisher 0 Scans'" />
       </div>
-      <div class="col-4 row items-center justify-center q-gutter-sm">
-        <q-btn flat round dense icon="edit" color="grey-6" class="hover-primary-icon" size="md" @click="onEdit(profile)">
+      <div class="col-4 row items-center justify-center q-gutter-sm" role="cell">
+        <q-btn
+          flat
+          round
+          dense
+          icon="edit"
+          color="grey-6"
+          class="hover-primary-icon"
+          size="md"
+          @click="onEdit(profile)"
+          :aria-label="'Profil von ' + profile.first_name + ' bearbeiten'"
+        >
           <q-tooltip>Bearbeiten</q-tooltip>
         </q-btn>
         <q-btn
@@ -26,6 +36,7 @@
           class="hover-primary-icon"
           size="md"
           @click="generatePDF(profile)"
+          :aria-label="'PDF-Notfallkarte für ' + profile.first_name + ' erstellen'"
         >
           <q-tooltip>PDF-Karte erstellen</q-tooltip>
         </q-btn>
@@ -38,6 +49,7 @@
           class="hover-primary-icon"
           size="md"
           @click="onDelete(profile)"
+          :aria-label="'Profil von ' + profile.first_name + ' löschen'"
         >
           <q-tooltip>Löschen</q-tooltip>
         </q-btn>
@@ -50,6 +62,8 @@
           class="hover-primary-icon"
           size="md"
           @click="toggleExpanded"
+          :aria-label="isExpanded ? 'Details einklappen' : 'Details für ' + profile.first_name + ' anzeigen'"
+          :aria-expanded="isExpanded"
         />
       </div>
     </div>
