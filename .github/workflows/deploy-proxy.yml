@@ -29,11 +29,11 @@ jobs:
 
             # Erstelle Caddyfile (Konfiguration)
             cat << 'EOF' > Caddyfile
-            smartrescue.online {
+            sm-api.dev, www.sm-api.dev {
                 reverse_proxy localhost:8080
             }
 
-            card.smartrescue.online {
+            card.sm-api.dev {
                 reverse_proxy localhost:8081
             }
             EOF
