@@ -57,4 +57,4 @@ jobs:
             EOF
 
             # Starte den Proxy im Hintergrund
-            docker compose up -d
+            docker-compose up -d || docker compose up -d
