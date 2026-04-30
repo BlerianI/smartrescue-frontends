@@ -1,0 +1,60 @@
+name: Deploy Reverse Proxy (HTTPS)
+
+on:
+  push:
+    branches: [ "deploy" ]
+    paths:
+      - '.github/workflows/deploy-proxy.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Reverse Proxy on Droplet
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USER }}
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          script: |
+            set -e
+
+            APP_DIR=/opt/smartrescue_proxy
+            mkdir -p $APP_DIR
+            cd $APP_DIR
+
+            # Erstelle Caddyfile (Konfiguration)
+            cat << 'EOF' > Caddyfile
+            smartrescue.online {
+                reverse_proxy localhost:8080
+            }
+
+            card.smartrescue.online {
+                reverse_proxy localhost:8081
+            }
+            EOF
+
+            # Erstelle docker-compose.yml
+            cat << 'EOF' > docker-compose.yml
+            version: "3.7"
+            services:
+              caddy:
+                image: caddy:2-alpine
+                container_name: smartrescue_proxy
+                restart: unless-stopped
+                ports:
+                  - "80:80"
+                  - "443:443"
+                volumes:
+                  - ./Caddyfile:/etc/caddy/Caddyfile
+                  - caddy_data:/data
+                  - caddy_config:/config
+                network_mode: "host"
+
+            volumes:
+              caddy_data:
+              caddy_config:
+            EOF
+
+            # Starte den Proxy im Hintergrund
+            docker compose up -d
