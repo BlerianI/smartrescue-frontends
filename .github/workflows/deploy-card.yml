@@ -29,6 +29,8 @@ jobs:
           tags: ghcr.io/bleriani/smartrescue-frontends/smartrescue_front_card:latest
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
+            VITE_DEEPL_API_KEY=${{ secrets.VITE_DEEPL_API_KEY }}
+            VITE_DEEPL_URL=${{ secrets.VITE_DEEPL_URL }}
 
   deploy:
     runs-on: ubuntu-latest
