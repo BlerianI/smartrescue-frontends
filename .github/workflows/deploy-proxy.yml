@@ -57,5 +57,7 @@ jobs:
               caddy_config:
             EOF
 
-            # Starte den Proxy im Hintergrund
-            docker-compose up -d || docker compose up -d
+            # Starte den Proxy neu und zeige Logs
+            docker-compose up -d --force-recreate || docker compose up -d --force-recreate
+            sleep 5
+            docker logs smartrescue_proxy | tail -n 20
