@@ -36,6 +36,10 @@ jobs:
             card.sm-api.dev {
                 reverse_proxy localhost:8081
             }
+
+            api.sm-api.dev {
+                reverse_proxy localhost:3000
+            }
             EOF
 
             # Erstelle docker-compose.yml
