@@ -42,9 +42,6 @@ jobs:
                 image: caddy:2-alpine
                 container_name: smartrescue_proxy
                 restart: unless-stopped
-                ports:
-                  - "80:80"
-                  - "443:443"
                 volumes:
                   - ./Caddyfile:/etc/caddy/Caddyfile
                   - caddy_data:/data
