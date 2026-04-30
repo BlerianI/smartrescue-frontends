@@ -10,13 +10,17 @@ RUN npm install --ignore-scripts
 # Copy the rest of the application code
 COPY . .
 
-# Argument for the VITE_API_URL, this must be passed during `docker build`
+# Argument for variables, these must be passed during `docker build`
 ARG VITE_API_URL
-ENV VITE_API_URL=$VITE_API_URL
+ARG VITE_DEEPL_API_KEY
+ARG VITE_DEEPL_URL
 
-# Build the Quasar application
-# Assuming Quasar CLI is not installed globally, we can use npx
-RUN npx quasar build
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_DEEPL_API_KEY=$VITE_DEEPL_API_KEY
+ENV VITE_DEEPL_URL=$VITE_DEEPL_URL
+
+# Build the Quasar application as PWA
+RUN npx quasar build -m pwa
 
 # --- Production Stage ---
 FROM nginx:alpine
@@ -24,8 +28,8 @@ FROM nginx:alpine
 # Remove default nginx static assets
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy built assets from builder
-COPY --from=builder /app/dist/spa /usr/share/nginx/html
+# Copy built assets from builder (PWA folder!)
+COPY --from=builder /app/dist/pwa /usr/share/nginx/html
 
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
