@@ -29,7 +29,7 @@ jobs:
 
             # Erstelle Caddyfile (Konfiguration)
             cat << 'EOF' > Caddyfile
-            sm-api.dev, www.sm-api.dev {
+            sm-api.dev {
                 reverse_proxy localhost:8080
             }
 
